@@ -1,0 +1,27 @@
+version: '3'
+services:
+  mysql:
+   container_name: minglex-mysql
+   image: mysql/mysql-server:5.7
+   environment:
+    MYSQL_DATABASE: minglexdb
+    MYSQL_ROOT_PASSWORD: 1
+    MYSQL_USER: root
+    MYSQL_ROOT_HOST: '%'
+   ports:
+   - 6868:3306
+   volumes:
+     - ./initDB:/docker-entrypoint-initdb.d
+   restart: always
+  
+  app:
+    container_name: minglex-app
+    #Todo: change this line later (auto builded image from docker-hub)
+    image: sanhphanvan/minglex
+    working_dir: /app
+    ports:
+      - 6969:8080
+    command: bash -c "ls ./target && cp ./target/minglex*.jar ./target/app.jar && java -jar -Dspring.profiles.active=docker ./target/app.jar"
+    depends_on:
+      - mysql
+    restart: always

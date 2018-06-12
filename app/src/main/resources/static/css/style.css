@@ -1,0 +1,230 @@
+body {
+  overflow-x: hidden;
+  font-family: 'Roboto Slab', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+}
+
+p {
+  line-height: 1.75;
+}
+
+a {
+  color: pink;
+}
+
+a:hover {
+  color: #fec503;
+}
+
+.text-primary {
+  color: pink !important;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-weight: 700;
+  font-family: 'Montserrat', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+}
+
+section {
+  padding: 100px 0;
+}
+
+section h2.section-heading {
+  font-size: 40px;
+  margin-top: 0;
+  margin-bottom: 15px;
+}
+
+section h3.section-subheading {
+  font-size: 16px;
+  font-weight: 400;
+  font-style: italic;
+  margin-bottom: 75px;
+  text-transform: none;
+  font-family: 'Droid Serif', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+}
+
+@media (min-width: 768px) {
+  section {
+    padding: 50px 0;
+    padding-top: 0px;
+    margin-bottom: 50px;
+  }
+}
+
+.btn {
+  font-family: 'Montserrat', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-weight: 700;
+}
+
+.btn-xl {
+  font-size: 20px;
+  padding: 15px 35px;
+}
+
+.btn-primary {
+  background-color: #90b1dc;
+  border-color: #90b1dc;
+}
+
+.btn-primary:active, .btn-primary:focus, .btn-primary:hover {
+  background-color: #DB7093 !important;
+  border-color: #DB7093 !important;
+  color: white;
+}
+
+.btn-primary:active, .btn-primary:focus {
+  box-shadow: 0 0 0 0.2rem rgba(255,192,203,0.5) !important;
+}
+
+::-moz-selection {
+  background: pink;
+  text-shadow: none;
+}
+
+::selection {
+  background: pink;
+  text-shadow: none;
+}
+
+img::selection {
+  background: transparent;
+}
+
+img::-moz-selection {
+  background: transparent;
+}
+
+header.masthead {
+  text-align: center;
+  background: white;
+  color: aliceblue;
+  background-image: url("../images/test/dating1.jpg");
+  background-repeat: no-repeat;
+  background-attachment: scroll;
+  background-position: center center;
+  -webkit-background-size: contain;
+  -moz-background-size: contain;
+  -o-background-size: contain;
+  background-size: contain;
+}
+
+header.masthead .intro-text {
+  padding-top: 150px;
+  padding-bottom: 100px;
+}
+
+header.masthead .intro-text .intro-lead-in {
+  font-size: 22px;
+  font-style: italic;
+  line-height: 22px;
+  padding: 10px;
+  font-family: 'Droid Serif', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  background-color: rgba(255,192,203,0.3);
+  display: inline-block;
+  padding: 0 15px;
+}
+
+header.masthead .intro-text .intro-heading {
+  font-size: 40px;
+  font-weight: 700;
+  line-height: 50px;
+  margin-bottom: 25px;
+  font-family: 'Montserrat', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  background-color: rgba(0,0,0,0.7);
+  display: block;
+}
+
+@media (min-width: 768px) {
+  header.masthead .intro-text {
+    margin-top: 20px;
+    padding-top: 50px;
+    padding-bottom: 450px;
+  }
+  header.masthead .intro-text .intro-lead-in {
+    font-size: 40px;
+    font-style: italic;
+    padding: 10px;
+    line-height: 40px;
+    font-family: 'Droid Serif', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  }
+  header.masthead .intro-text .intro-heading {
+    font-size: 60px;
+    font-weight: 700;
+    padding: 20px 20px;
+    margin-bottom: 50px;
+    font-family: 'Montserrat', 'Helvetica Neue', Helvetica, sans-serif;
+  }
+}
+
+.service-heading {
+  margin: 20px;
+  text-transform: none;
+  font-size: 25px;
+}
+
+img.icon {
+  width: 170px;
+  height: 170px;
+  margin-top: 20px;
+}
+
+img.logo {
+	height: 170px;
+	width: auto;
+}
+
+footer {
+  background: slategray;
+  color: white;
+  text-align: center;
+  padding: 10px;
+
+  position:  fixed;
+  bottom: 0;
+  left:  0;
+  right: 0;
+
+}
+
+footer span.copyright {
+  font-size: 90%;
+  line-height: 40px;
+  text-transform: none;
+  font-family: 'Montserrat', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+}
+
+footer ul.quicklinks {
+  font-size: 90%;
+  line-height: 40px;
+  margin-bottom: 0;
+  text-transform: none;
+  font-family: 'Montserrat', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+}
+
+ul.social-buttons {
+  margin-bottom: 0;
+}
+
+ul.social-buttons li a {
+  font-size: 20px;
+  line-height: 40px;
+  display: block;
+  width: 40px;
+  height: 40px;
+  -webkit-transition: all 0.3s;
+  -moz-transition: all 0.3s;
+  transition: all 0.3s;
+  color: white;
+  border-radius: 100%;
+  outline: none;
+  background-color: #212529;
+}
+
+ul.social-buttons li a:active, ul.social-buttons li a:focus, ul.social-buttons li a:hover {
+  background-color: pink;
+}

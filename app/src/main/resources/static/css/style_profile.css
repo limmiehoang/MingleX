@@ -1,0 +1,48 @@
+a {
+    font-size: 20px;
+}
+
+img.logo{
+	height: 70px;
+	width: auto;
+	position: relative;
+	z-index: 2105;
+}
+
+.navbar {
+	margin-bottom: 0;
+	border-radius: 0;
+}
+
+footer {
+	z-index: 2;
+}
+
+.user-profile img {
+    width: 225px;
+    height: 225px;
+    border: 7px solid pink;
+    margin-bottom: 25px;
+}
+
+img.rounded-circle {
+	border-radius: 50%;
+}
+
+.user-profile {
+    text-align: center;
+	margin: 25px;
+}
+
+.alice-blue {
+	background: aliceblue;
+}
+
+h4, h5 {
+	color: slategray;
+}
+
+p.profile-info {
+	font-size: 21px;
+	color: sienna;
+}
