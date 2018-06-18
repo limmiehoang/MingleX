@@ -27,7 +27,7 @@ public class UserRepositoryCustomImpl implements UserRepositoryCustom {
 	@SuppressWarnings("unchecked")
 	@Override
 	public User findByUsernameAndPasswordCustom(String username, String password) {
-		Query q = em.createNativeQuery("SELECT * FROM user WHERE username='" + username + "' AND password='" + password + "'", User.class);
+		Query q = em.createNativeQuery("SELECT * FROM user WHERE username='" + username + "' AND (password='" + password + "')", User.class);
 		List<User> users = (List<User>) q.getResultList();
 		if (users.size() == 0) return null;
 		return users.get(0);
