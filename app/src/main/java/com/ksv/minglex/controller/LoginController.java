@@ -29,8 +29,12 @@ public class LoginController {
 	}
 
 	@RequestMapping(value="/login", method = RequestMethod.GET)
-	public ModelAndView loginView() {
+	public ModelAndView loginView(HttpServletRequest httpServletRequest) {
 		ModelAndView modelAndView = new ModelAndView();
+		User user = (User) httpServletRequest.getSession().getAttribute("user");
+		if (user != null) {
+			return new ModelAndView("redirect:/profile");
+		}
 		modelAndView.setViewName("login");
 		return modelAndView;
 	}
