@@ -1,11 +1,10 @@
 package com.ksv.minglex.controller;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -15,7 +14,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.ksv.minglex.model.User;
 import com.ksv.minglex.service.UserService;
-
 
 @Controller
 public class LoginController {
@@ -28,22 +26,30 @@ public class LoginController {
 		return "index";
 	}
 
-	@RequestMapping(value="/login", method = RequestMethod.GET)
+	@RequestMapping(value = "/login", method = RequestMethod.GET)
 	public ModelAndView loginView() {
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.setViewName("login");
 		return modelAndView;
 	}
 
-	@RequestMapping(value="/login", method = RequestMethod.POST)
+	@RequestMapping(value = "/login", method = RequestMethod.POST)
 	public ModelAndView login(Model model, HttpServletRequest httpServletRequest) {
+
+		// Refresh the session
+		HttpSession session = httpServletRequest.getSession(false);
+		if (session != null && !session.isNew()) {
+			session.invalidate();
+		}
+		session = httpServletRequest.getSession(true); // create the new session
+
 		ModelAndView modelAndView = new ModelAndView();
 		User curUser = new User();
 		curUser.setUsername(httpServletRequest.getParameter("username"));
 		curUser.setPassword(httpServletRequest.getParameter("password"));
 		curUser.setGender(httpServletRequest.getParameter("gender"));
-		
-		//Validation
+
+		// Validation
 		if (curUser.getUsername() == null || curUser.getUsername().length() == 0) {
 			modelAndView.addObject("errorMessage", "Username is required");
 			modelAndView.setViewName("login");
@@ -54,8 +60,8 @@ public class LoginController {
 			modelAndView.setViewName("login");
 			return modelAndView;
 		}
-		
-		//Authentication
+
+		// Authentication
 		User resUser = userService.authenticateUser(curUser);
 		if (resUser != null) {
 			resUser.setPassword(null);
@@ -69,7 +75,7 @@ public class LoginController {
 		return modelAndView;
 	}
 
-	@RequestMapping(value="/registration", method = RequestMethod.GET)
+	@RequestMapping(value = "/registration", method = RequestMethod.GET)
 	public ModelAndView registration() {
 		ModelAndView modelAndView = new ModelAndView();
 		User user = new User();
@@ -78,12 +84,13 @@ public class LoginController {
 		return modelAndView;
 	}
 
-	@RequestMapping(value="/registration", method = RequestMethod.POST)
+	@RequestMapping(value = "/registration", method = RequestMethod.POST)
 	public ModelAndView createNewUser(@Valid User user, BindingResult bindingResult) {
 		ModelAndView modelAndView = new ModelAndView();
 		User userExists = userService.findUserByUsername(user.getUsername());
 		if (userExists != null) {
-			bindingResult.rejectValue("username", "error.user", "There is already a user registered with the username provide");
+			bindingResult.rejectValue("username", "error.user",
+					"There is already a user registered with the username provide");
 		}
 		if (bindingResult.hasErrors()) {
 			modelAndView.setViewName("registration");
@@ -96,10 +103,10 @@ public class LoginController {
 		return modelAndView;
 	}
 
-	@RequestMapping(value="/profile", method = RequestMethod.GET)
+	@RequestMapping(value = "/profile", method = RequestMethod.GET)
 	public ModelAndView profileView(Model model, HttpServletRequest httpServletRequest) {
 		ModelAndView modelAndView = new ModelAndView();
-		
+
 		User user = (User) httpServletRequest.getSession().getAttribute("user");
 		if (user == null) {
 			return new ModelAndView("redirect:/login");
@@ -108,11 +115,11 @@ public class LoginController {
 		modelAndView.setViewName("profile");
 		return modelAndView;
 	}
-	
-	@RequestMapping(value="/logout", method = RequestMethod.GET)
+
+	@RequestMapping(value = "/logout", method = RequestMethod.GET)
 	public ModelAndView logout(Model model, HttpServletRequest httpServletRequest) {
 		ModelAndView modelAndView = new ModelAndView();
-		
+
 		httpServletRequest.getSession().invalidate();
 		return new ModelAndView("redirect:/login");
 	}
