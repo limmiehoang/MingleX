@@ -8,7 +8,7 @@ p {
 }
 
 a {
-  color: pink;
+  color: slategray;
 }
 
 a:hover {
@@ -182,7 +182,7 @@ footer {
   background: slategray;
   color: white;
   text-align: center;
-  padding: 10px;
+  padding: 3px;
 
   position:  fixed;
   bottom: 0;

@@ -112,6 +112,19 @@ public class LoginController {
 		modelAndView.setViewName("profile");
 		return modelAndView;
 	}
+
+	@RequestMapping(value="/explore", method = RequestMethod.GET)
+	public ModelAndView exploreView(Model model, HttpServletRequest httpServletRequest) {
+		ModelAndView modelAndView = new ModelAndView();
+		
+		User user = (User) httpServletRequest.getSession().getAttribute("user");
+		if (user == null) {
+			return new ModelAndView("redirect:/login");
+		}
+		modelAndView.addObject("curUser", user);
+		modelAndView.setViewName("explore");
+		return modelAndView;
+	}
 	
 	@RequestMapping(value="/logout", method = RequestMethod.GET)
 	public ModelAndView logout(Model model, HttpServletRequest httpServletRequest) {

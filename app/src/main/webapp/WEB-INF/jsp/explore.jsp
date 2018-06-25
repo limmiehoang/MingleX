@@ -24,9 +24,9 @@
                     </a>
                 </div>
                 <ul class="nav navbar-nav">
-                <li class="active"><a href="/profile">Profile</a></li>
+                <li><a href="/profile">Profile</a></li>
                 <li><a href="#">Match</a></li>
-                <li><a href="/explore">Explore</a></li>
+                <li class="active"><a href="/explore">Explore</a></li>
                 </ul>
                 
                 <ul class="nav navbar-nav navbar-right">
@@ -36,35 +36,8 @@
             </div>
         </nav>
 
-        <!-- Sidebar -->
-        <div class="w3-sidebar alice-blue w3-bar-block" style="width:auto">
-            <div class="user-profile">
-                <img class="profile-img rounded-circle" src="images/pp-whitehat.jpg">
-                <div class="detail-info">
-                    <div class="info-item">
-                        <h6>Username</h6>
-                        <p>${curUser.username}</p>
-                    </div>
-
-                    <div class="info-item">
-                        <h6>Gender</h6>
-                        <p>${curUser.gender}</p>
-                    </div>
-
-                    <div class="info-item">
-                        <h6>Looking for</h6>
-                        <p>men</p>
-                    </div>
-                    
-                </div>
-                <a href="#">Change your password</a>
-            </div>
-            
-            </div>
-        </div>
-
         <!-- Page Content -->
-        <div class="container" style="margin-left: 295px; padding: 25px 50px;">
+        <div class="container">
             <!-- Set status -->
             <form method="post" action="/profile">
                 <div class="form-group row">
@@ -78,11 +51,43 @@
                     </div>
                 </div>
             </form>
+            
+            <!-- All user story -->
+            <div class="row first-row">
+                <div class="col-sm-2 status-user-img">
+                    <a href="#">
+                        <img src="images/pp-female.jpg" class="rounded-circle">
+                    </a>
+                </div>
+                <div class="col-sm-10">
+                    <h3 class="title"><a href="#">wonderwoman</a></h3>
+                    <p class="text-muted"><span class="glyphicon glyphicon-time"></span> 1 hour ago</p>
+                    <p>I'm single and ready to MINGLEEEEE.</p>
+                
+                    
+                </div>
+            </div>
+            <hr>
 
-            <!-- User story -->
             <div class="row">
                 <div class="col-sm-2 status-user-img">
-                    <a href="#" class="">
+                    <a href="#">
+                        <img src="images/pp-male.jpg" class="rounded-circle">
+                    </a>
+                </div>
+                <div class="col-sm-10">
+                    <h3 class="title"><a href="#">batman</a></h3>
+                    <p class="text-muted"><span class="glyphicon glyphicon-time"></span> 1 hour ago</p>
+                    <p>I'm single and ready to MINGLEEEEE.</p>
+                
+                    
+                </div>
+            </div>
+            <hr>
+
+            <div class="row">
+                <div class="col-sm-2 status-user-img">
+                    <a href="#">
                         <img src="images/pp-whitehat.jpg" class="rounded-circle">
                     </a>
                 </div>
