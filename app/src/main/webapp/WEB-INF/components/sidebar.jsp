@@ -59,14 +59,14 @@
 
 					<div class="info-item">
 						<h6>Gender</h6>
-						<p id="gender">${curUser.gender}</p>
+						<p id="gender"></p>
 						<a class="edit-info" href="#" id="btn_edit_gender"><span
 							class="glyphicon glyphicon-edit"></span></a>
 					</div>
 
 					<div class="info-item">
 						<h6>Looking for</h6>
-						<p id="lookingfor">${curUser.lookingfor}</p>
+						<p id="lookingfor"></p>
 						<a class="edit-info" href="#" id="btn_edit_lookingfor"><span class="glyphicon glyphicon-edit"></span></a>
 					</div>
 				</div>
@@ -75,3 +75,7 @@
 		</c:otherwise>
 	</c:choose>
 </div>
+<script>
+	$("#gender").html('${curUser.gender}');
+	$("#lookingfor").html('${curUser.lookingfor}');
+</script>

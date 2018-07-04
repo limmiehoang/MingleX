@@ -70,4 +70,17 @@ public class UserServiceImpl implements UserService {
         return userRepository.findUsersByKeywordsAndGender(keywords, gender);
     }
 
+	@Override
+	public boolean updateUser(User user) {
+		User userDb = userRepository.findById(user.getId());
+		if (userDb == null)
+			return false;
+		String gender = user.getGender();
+		String lookingfor = user.getLookingfor();
+		if (gender != null) userDb.setGender(gender);
+		if (lookingfor != null) userDb.setLookingfor(lookingfor);
+		userRepository.save(userDb);
+		return true;
+	}
+
 }

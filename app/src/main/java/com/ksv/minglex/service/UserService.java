@@ -6,9 +6,15 @@ import java.util.List;
 
 public interface UserService {
 	public User findUserByUsername(String username);
+
 	public void saveUser(User user);
+
 	public User authenticateUser(User user);
+
 	public User findUserById(String id);
 
 	public List<User> findUsersByKeywordsAndGender(String keywords, String gender);
+
+	public boolean updateUser(User user);
+
 }
