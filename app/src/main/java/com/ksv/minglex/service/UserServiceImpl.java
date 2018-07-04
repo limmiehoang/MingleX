@@ -17,8 +17,6 @@ public class UserServiceImpl implements UserService {
 	private PasswordEncoder passwordEncoder;
 	@Autowired
 	private SecuritySetting securitySetting;
-	@Autowired
-	private XSSPreventionService xssService;
 
 	@Override
 	public User findUserByUsername(String username) {
@@ -28,10 +26,6 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public void saveUser(User user) {
 		user.setPassword(passwordEncoder.encode(user.getPassword()));
-		if (securitySetting.getStoredXSS()) {
-			String username = user.getUsername();
-			user.setUsername(xssService.filter(username));
-		}
 		userRepository.save(user);
 	}
 

@@ -1,11 +1,7 @@
 package com.ksv.minglex.service;
 
-import org.springframework.stereotype.Service;
-
-@Service("XSSPreventionService")
-public class HTMLEscapeImpl implements XSSPreventionService {
-	@Override
-	public String filter(String s) {
+public class XSSPrevention {
+    public static String escapeHtml(String s) {
 		// TODO Auto-generated method stub
 		StringBuilder out = new StringBuilder(Math.max(16, s.length()));
 		for (int i = 0; i < s.length(); i++) {

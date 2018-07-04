@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 public class SecuritySetting {
     private Boolean sqlInjection;
     private String storePasswordSolution;
-    private Boolean storedXSS;
+    private String storedXSS;
 
     public Boolean getSqlInjection() {
         return sqlInjection;
@@ -26,11 +26,11 @@ public class SecuritySetting {
         this.storePasswordSolution = storePasswordSolution;
     }
 
-    public Boolean getStoredXSS() {
+    public String getStoredXSS() {
         return storedXSS;
     }
 
-    public void setStoredXSS(Boolean storedXSS) {
+    public void setStoredXSS(String storedXSS) {
         this.storedXSS = storedXSS;
     }
 

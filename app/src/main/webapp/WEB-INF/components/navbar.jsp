@@ -1,3 +1,4 @@
+<%@taglib prefix="cg" uri="/WEB-INF/tld/customTagLibrary"%>
 	<!-- Navbar -->
 	<nav class="navbar navbar-inverse navbar-fixed-top">
 	<div class="container-fluid">
@@ -13,7 +14,7 @@
 		</ul>
 
 		<ul class="nav navbar-nav navbar-right">
-			<li><a href="/profile">Hello, <strong class="nav-username">${curUser.username}</strong></a></li>
+			<li><a href="/profile">Hello, <strong class="nav-username">${cg:escapeHtml(curUser.username)}</strong></a></li>
 			<li><a href="/logout"><span
 					class="glyphicon glyphicon-log-out"></span> Logout</a></li>
 		</ul>

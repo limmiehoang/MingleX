@@ -1,5 +1,6 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+<%@taglib prefix="cg" uri="/WEB-INF/tld/customTagLibrary"%>
 <div class="w3-sidebar alice-blue w3-bar-block" style="width: auto">
 	<c:choose>
 		<c:when test="${otherUser != null}">
@@ -20,7 +21,7 @@
 				<div class="detail-info">
 					<div class="info-item">
 						<h6>Username</h6>
-						<p>${otherUser.username}</p>
+						<p>${cg:escapeHtml(otherUser.username)}</p>
 					</div>
 
 					<div class="info-item">
@@ -53,7 +54,7 @@
 				<div class="detail-info">
 					<div class="info-item">
 						<h6>Username</h6>
-						<p>${curUser.username}</p>
+						<p>${cg:escapeHtml(curUser.username)}</p>
 					</div>
 
 					<div class="info-item">
