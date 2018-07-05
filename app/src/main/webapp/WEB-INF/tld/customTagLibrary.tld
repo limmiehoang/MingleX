@@ -17,6 +17,13 @@
         </function-signature>
     </function>
 
+    <function>
+        <name>escapeJavaScript</name>
+        <function-class>com.ksv.minglex.service.XSSPrevention</function-class>
+        <function-signature>
+            java.lang.String escapeJavaScript(java.lang.String)
+        </function-signature>
+    </function>
     <!-- Invoke 'Generate' action to add tags or functions -->
 
 </taglib>

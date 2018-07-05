@@ -33,6 +33,5 @@ public class UserRestController {
 		} else {
 			return new ResponseEntity<Void>(HttpStatus.NOT_FOUND);
 		}
-
 	}
 }
