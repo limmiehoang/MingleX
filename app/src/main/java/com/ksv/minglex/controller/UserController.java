@@ -3,6 +3,7 @@ package com.ksv.minglex.controller;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -60,11 +61,11 @@ public class UserController {
 			modelAndView.setViewName("login");
 			return modelAndView;
 		}
-
 		// Authentication
 		User resUser = userService.authenticateUser(curUser);
 		if (resUser != null) {
-			resUser.setPassword(null);
+			// Session fixation
+			sessionService.sessionFixation(request);
 			sessionService.setCurrentUser(request, resUser);
 			return new ModelAndView("redirect:/profile");
 		} else {
@@ -140,8 +141,9 @@ public class UserController {
 	}
 
 	@RequestMapping(value = "/logout", method = RequestMethod.GET)
-	public ModelAndView logout(Model model, HttpServletRequest request) {
-		// TODO: need to remove cookie (client side)
+	public ModelAndView logout(Model model, HttpServletRequest request, HttpServletResponse response) {
+		// Remove cookie (client side)
+		sessionService.eraseCookie(request, response);
 		sessionService.removeCurrentSession(request);
 		return new ModelAndView("redirect:/login");
 	}

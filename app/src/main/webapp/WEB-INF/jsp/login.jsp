@@ -37,7 +37,7 @@
 						<span class="focus-input100"></span>
 					</div>
 					
-					<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+					<input type="hidden" name="_csrf" value="${_csrfToken}" />
 					
 
 					<div class="container-login100-form-btn m-t-17">

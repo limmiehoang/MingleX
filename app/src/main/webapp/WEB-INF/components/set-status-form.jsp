@@ -4,6 +4,7 @@
 		<div class="col-md-12 field">
 			<form:textarea path="description" cols="30" rows="5"
 				placeholder="Share your message here..." cssClass="form-control" />
+			<input type="hidden" name="_csrf" value="${_csrfToken}" />
 		</div>
 	</div>
 	<div class="form-group row text-right">

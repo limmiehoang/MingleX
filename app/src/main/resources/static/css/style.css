@@ -228,3 +228,9 @@ ul.social-buttons li a {
 ul.social-buttons li a:active, ul.social-buttons li a:focus, ul.social-buttons li a:hover {
   background-color: pink;
 }
+
+/* capcapitalize */
+
+.capitalize {
+  text-transform: capitalize;
+}

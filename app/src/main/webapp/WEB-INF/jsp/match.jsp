@@ -5,21 +5,19 @@
 
 <%@taglib prefix="t" tagdir="/WEB-INF/tags" %>
 
-<t:wrapper title="Explore">
+<t:wrapper title="Match">
     <div class="flex-container" style="padding-top: 53px;">
         
 		<!-- Navbar -->
 		<jsp:include page="/WEB-INF/components/navbar.jsp" >
-			<jsp:param name="active" value="Explore"/>
+			<jsp:param name="active" value="Match"/>
 		</jsp:include>
 
         <!-- Page Content -->
         <div class="container">
-            <!-- Set status -->
-			<jsp:include page="/WEB-INF/components/set-status-form.jsp" />
-            
-            <!-- All user story -->
-			<jsp:include page="/WEB-INF/components/user-stories.jsp" />
+
+			<!-- matched users -->
+			<jsp:include page="/WEB-INF/components/users.jsp" />
 		</div>
 
     </div>

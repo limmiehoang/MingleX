@@ -15,7 +15,7 @@ public class RandomStringService {
      */
     public String nextString() {
         for (int idx = 0; idx < buf.length; ++idx)
-            buf[idx] = symbols[random.nextInt(symbols.length)];
+            buf[idx] = symbols[random.next(16) % symbols.length];
         return new String(buf);
     }
 
@@ -28,13 +28,13 @@ public class RandomStringService {
 //    public static final String alphanum = upper + lower + digits;
     public static final String alphanum = lower + digits;
 
-    private final Random random;
+    private final RandomNumberGenerator random;
 
     private final char[] symbols;
 
     private final char[] buf;
 
-    public RandomStringService(int length, Random random, String symbols) {
+    public RandomStringService(int length, RandomNumberGenerator random, String symbols) {
         if (length < 1) throw new IllegalArgumentException();
         if (symbols.length() < 2) throw new IllegalArgumentException();
         this.random = Objects.requireNonNull(random);
@@ -45,7 +45,7 @@ public class RandomStringService {
     /**
      * Create an alphanumeric string generator.
      */
-    public RandomStringService(int length, Random random) {
+    public RandomStringService(int length, RandomNumberGenerator random) {
         this(length, random, alphanum);
     }
 
@@ -53,7 +53,7 @@ public class RandomStringService {
      * Create an alphanumeric strings from a secure generator.
      */
     public RandomStringService(int length) {
-        this(length, new SecureRandom());
+        this(length, new BlumBlumShub(512));
     }
 
     /**

@@ -1,7 +1,7 @@
 $(document).ready(function(){
 	$("#btn_edit_gender").click(function(){
 		$("#gender").html('\
-			<form action="/profile" method="POST" id="gender-update">\
+			<form id="gender-update">\
 				<div class="form-group">\
 					<label class="radio-inline">\
 						<input type="radio" name="gender" value="male" checked="checked"/>\
@@ -17,15 +17,15 @@ $(document).ready(function(){
 					</label>\
 				</div>\
 				<div class="form-group form-actions text-right">\
-					<input type="submit" class="btn btn-primary" value="Done">\
+					<input class="btn btn-primary" value="Done" onclick="updateProfile(\'gender\')">\
 				</div>\
-			</form:form>\
+			</form>\
 		');
 
 	});
 	$("#btn_edit_lookingfor").click(function(){
 		$("#lookingfor").html('\
-				<form action="/profile" method="POST" id="gender-update">\
+				<form id="lookingfor-update">\
 					<div class="form-group">\
 						<label class="radio-inline">\
 							<input type="radio" name="lookingfor" value="man" checked="checked"/>\
@@ -41,28 +41,46 @@ $(document).ready(function(){
 						</label>\
 					</div>\
 					<div class="form-group form-actions text-right">\
-						<input type="submit" class="btn btn-primary" value="Done">\
+						<input class="btn btn-primary" value="Done" onclick="updateProfile(\'lookingfor\')">\
 					</div>\
-				</form:form>\
+				</form>\
 		');
 
 	});
 
 });
-// $('body').delegate('#gender-update','submit',function(e){
-// 	e.preventDefault();
-//     var form = $(this);
-//     var post_url = form.attr('/profile');
-//     var post_data = form.serialize();
-// 	console.log(post_data);
-//     $.ajax({
-//         type: 'POST',
-//         url: post_url, 
-//         data: post_data,
-//         success: function(msg) {
-//             $(form).fadeOut(500, function(){
-//                 form.html(msg).fadeIn();
-//             });
-//         }
-//     });
-// });
+
+function updateProfile(type) {
+	var user = null;
+	console.log(type);
+	if (type === "gender") {
+		user = {"gender": $("input[name='gender']:checked").val() || null};
+	} else {
+		user = {"lookingfor": $("input[name='lookingfor']:checked").val() || null};
+	}
+
+	$.ajax({
+		type : 'PUT',
+		url : 'http://localhost:8080/profile',
+		data : JSON.stringify(user),
+		contentType : 'application/json',
+		headers: {
+	        'X-CSRF-Token': $("#csrfInput").val()
+	    },
+		success : function(res) {
+			console.log("success", res);
+			if (user.gender) {
+				$("#gender").html(user.gender);
+			}
+			if (user.lookingfor) {
+				$("#lookingfor").html(user.lookingfor);
+			}
+		},
+		error : function(res) {
+			console.log("error", res);
+			alert(res.statusText);
+		}
+	});
+}
+
+// TODO: Change profile picture after done

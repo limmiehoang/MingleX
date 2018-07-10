@@ -25,15 +25,7 @@ public class StatusServiceImpl implements StatusService {
 
 	@Override
 	public List<Status> findAll() {
-		if (!securitySetting.getStoredXSS())
-			return statusRepository.findAllOrderByUpdatedAt();
-		xssService = new HTMLEscapeImpl();
-		List<Status> statuses = statusRepository.findAllOrderByUpdatedAt();
-		for (Status status : statuses) {
-			status.setDescription(xssService.filter(status.getDescription()));
-			System.out.println(status.getDescription());
-		}
-		return statuses;
+    return statusRepository.findAllOrderByUpdatedAt();
 	}
 
 	@Override
@@ -62,12 +54,6 @@ public class StatusServiceImpl implements StatusService {
 			statuses = statusRepository.findByUser(user);
 		}
 
-		// Filter statuses
-		if (securitySetting.getStoredXSS()) {
-			for (Status status : statuses) {
-				status.setDescription(xssService.filter(status.getDescription()));
-			}
-		}
 		return statuses;
 	}
 

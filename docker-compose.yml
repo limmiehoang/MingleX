@@ -20,7 +20,10 @@ services:
     environment:
       SEC_STORE_PASSWORD_SOLUTION: Plain  #(Plain/Hash/SaltHash/Bcrypt, default: Plain)
       SEC_SQL_INJECTION: "False"          #(True/False, default: False), note: must be a string!
-      SEC_STORED_XSS: "True"              #(True/False, default: False)
+      SEC_STORED_XSS: None                #(None/HTMLEscapeOnly/Protected, default: None)
+      SEC_SESSION_FIXATION: "False"       #(True/False, default: False)
+      SEC_REFLECTED_XSS: "False"          #(True/False, default: False)
+      SEC_CSRF: "False"          					#(True/False, default: False)
     working_dir: /app
     ports:
       - 6969:8080

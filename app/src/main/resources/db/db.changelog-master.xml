@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<databaseChangeLog
-	xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
          http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
@@ -12,12 +11,17 @@
 		relativeToChangelogFile="true" />
 	<include file="changelog/05-create-status-schema.xml"
 		relativeToChangelogFile="true" />
-  	<include file="changelog/06-insert-status.xml"
+	<include file="changelog/06-insert-status.xml"
 		relativeToChangelogFile="true" />
 	<include file="changelog/07-add-column-lookingfor-to-user-schema.xml"
 		relativeToChangelogFile="true" />
 	<include file="changelog/08-update-existed-user.xml"
 		relativeToChangelogFile="true" />
 	<include file="changelog/09-insert-user.xml"
-		relativeToChangelogFile="true" />	
+		relativeToChangelogFile="true" />
+	<include file="changelog/10-insert-status.xml"
+		relativeToChangelogFile="true" />
+	<include file="changelog/11-alter-user-schema.xml"
+		relativeToChangelogFile="true" />
+
 </databaseChangeLog>

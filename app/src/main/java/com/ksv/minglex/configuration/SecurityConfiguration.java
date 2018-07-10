@@ -19,6 +19,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 			.antMatchers("/registration").permitAll().and()
 //			.csrf().requireCsrfProtectionMatcher(new AntPathRequestMatcher("/login", "POST")).and()
 			.csrf().disable()
+			.logout().disable()
 //			.formLogin()
 //			.loginPage("/login").failureUrl("/login?error=true")
 //			.defaultSuccessUrl("/admin/home")

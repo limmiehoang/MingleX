@@ -1,0 +1,50 @@
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+
+    <changeSet id="insert_status" author="ksv">
+        <insert tableName="status">
+            <column name="user_id" value="3" />
+            <column name="description"
+                    value="I'm so stupid because I refuse to think that I'm getting older. I get up in the morning, and it's like, 'La, la, la, I'm so pretty.' I still mingle with a lot with young people. I even go to college campuses to talk to them because I know how they think. They don't think I'm boring, either. They think I'm cool, but I want them to think I'm hot!" />
+        </insert>
+        <insert tableName="status">
+            <column name="user_id" value="4" />
+            <column name="description"
+                    value="I’m not flirting. I’m just being extra nice to someone who is extra attractive." />
+        </insert>
+        <insert tableName="status">
+            <column name="user_id" value="5" />
+            <column name="description"
+                    value="Winter is coming." />
+        </insert>
+        <insert tableName="status">
+            <column name="user_id" value="4" />
+            <column name="description"
+                    value="Nothing burns like the cold." />
+        </insert>
+        <insert tableName="status">
+            <column name="user_id" value="6" />
+            <column name="description"
+                    value="When you play a game of thrones you win or you die." />
+        </insert>
+        <insert tableName="status">
+            <column name="user_id" value="3" />
+            <column name="description"
+                    value="Different roads sometimes lead to the same castle." />
+        </insert>
+        <insert tableName="status">
+            <column name="user_id" value="6" />
+            <column name="description"
+                    value="Give me honorable enemies rather than ambitious ones, and I'll sleep more easily by night." />
+        </insert>
+        <insert tableName="status">
+            <column name="user_id" value="5" />
+            <column name="description"
+                    value="Every flight begins with a fall." />
+        </insert>
+    </changeSet>
+
+</databaseChangeLog>

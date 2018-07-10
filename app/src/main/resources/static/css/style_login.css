@@ -1,20 +1,3 @@
-
-
-
-
-/*//////////////////////////////////////////////////////////////////
-[ FONT ]*/
-
-@font-face {
-    font-family: Ubuntu-Regular;
-    src: url('../fonts/ubuntu/Ubuntu-Regular.ttf'); 
-  }
-  
-  @font-face {
-    font-family: Ubuntu-Bold;
-    src: url('../fonts/ubuntu/Ubuntu-Bold.ttf'); 
-  }
-  
   /*//////////////////////////////////////////////////////////////////
   [ RESTYLE TAG ]*/
   
@@ -26,12 +9,11 @@
   
   body, html {
       height: 100%;
-      font-family: Ubuntu-Regular, sans-serif;
+      font-family: sans-serif;
   }
   
   /*---------------------------------------------*/
   a {
-      font-family: Ubuntu-Regular;
       font-size: 14px;
       line-height: 1.7;
       color: #666666;
@@ -57,7 +39,6 @@
   }
   
   p {
-      font-family: Ubuntu-Regular;
       font-size: 14px;
       line-height: 1.7;
       color: #666666;
@@ -119,7 +100,6 @@
   /*//////////////////////////////////////////////////////////////////
   [ Utility ]*/
   .txt1 {
-    font-family: Ubuntu-Regular;
     font-size: 16px;
     color: #90b1dc;
     line-height: 1.4;
@@ -175,7 +155,6 @@
   }
   
   .login100-form-title {
-    font-family: Ubuntu-Bold;
     font-size: 30px;
     color: #90b1dc;
     line-height: 1.2;
@@ -202,7 +181,6 @@
   
   /*---------------------------------------------*/
   .input100 {
-    font-family: Ubuntu-Bold;
     color: #DB7093;
     line-height: 1.2;
     font-size: 18px;
@@ -273,7 +251,6 @@
   }
   
   .label-checkbox100 {
-    font-family: Ubuntu-Regular;
     font-size: 16px;
     color: #999999;
     line-height: 1.2;
@@ -330,7 +307,6 @@
   }
   
   .login100-form-btn {
-    font-family: Ubuntu-Bold;
     font-size: 16px;
     color: #fff;
     line-height: 1.2;
@@ -384,7 +360,6 @@
     right: 12px;
     pointer-events: none;
   
-    font-family: Ubuntu-Regular;
     color: #c80000;
     font-size: 14px;
     line-height: 1.4;

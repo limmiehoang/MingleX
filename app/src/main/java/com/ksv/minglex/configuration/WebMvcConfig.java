@@ -5,8 +5,11 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
+import com.ksv.minglex.interceptor.CSRFInterceptor;
+import com.ksv.minglex.interceptor.CSRFPreventionInterceptor;
 import com.ksv.minglex.service.PlainTextPasswordEncoder;
 import com.ksv.minglex.service.SHA256PasswordEncoder;
 import com.ksv.minglex.service.SaltSHA256PasswordEncoder;
@@ -40,4 +43,25 @@ public class WebMvcConfig implements WebMvcConfigurer {
 		}
 	}
 
+	@Bean
+	public CSRFInterceptor getCSRFInterceptor() {
+		return new CSRFInterceptor();
+	}
+
+	@Bean
+	public CSRFPreventionInterceptor getCSRFPreventionInterceptor() {
+		return new CSRFPreventionInterceptor();
+	}
+
+	@Override
+	public void addInterceptors(InterceptorRegistry registry) {
+		if (securitySetting.getCsrf()) {
+			// Register CSRF interceptor to generate CSRF token
+			registry.addInterceptor(getCSRFInterceptor()).addPathPatterns("/login", "/registration", "/profile",
+					"/explore");
+			// Register CSRF prevention interceptor to check CSRF token
+			registry.addInterceptor(getCSRFPreventionInterceptor()).addPathPatterns("/login", "/registration",
+					"/status/new", "/profile");
+		}
+	}
 }

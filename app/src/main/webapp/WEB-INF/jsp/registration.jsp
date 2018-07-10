@@ -72,6 +72,7 @@
 										</label>
 										<form:errors path="lookingfor" cssClass="error" />
 									</div>
+									<input type="hidden" name="_csrf" value="${_csrfToken}" />
 									<div class="form-group form-actions text-right">
 										<input type="reset" class="btn btn-default" value="Reset">
 										<input type="submit" class="btn btn-primary" value="Submit">

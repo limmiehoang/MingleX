@@ -1,7 +1,7 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
+<%@page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+<%@taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 
 <%@taglib prefix="t" tagdir="/WEB-INF/tags" %>
 
@@ -10,7 +10,9 @@
 	<div class="flex-container" style="padding-top: 53px;">
 
 		<!-- Navbar -->
-		<jsp:include page="/WEB-INF/components/navbar.jsp" />
+		<jsp:include page="/WEB-INF/components/navbar.jsp" >
+			<jsp:param name="active" value="Profile"/>
+		</jsp:include>
 
 		<!-- Sidebar -->
 		<jsp:include page="/WEB-INF/components/sidebar.jsp" />
