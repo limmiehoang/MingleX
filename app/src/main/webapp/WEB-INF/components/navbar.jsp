@@ -19,12 +19,12 @@
             >
                 <a href="/profile">Profile</a></li>
             <li class="
-                    <c:if test="${param.active == 'Match'}">
+                    <c:if test="${param.active == 'Chat'}">
                         <c:out value="active"/>
                     </c:if>
                     "
             >
-                <a href="#">Match</a></li>
+                <a href="/chat">Chat</a></li>
             <li class="
                     <c:if test="${param.active == 'Explore'}">
                         <c:out value="active"/>

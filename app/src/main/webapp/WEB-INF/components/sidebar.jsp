@@ -3,7 +3,7 @@
 <%@taglib prefix="cg" uri="/WEB-INF/tld/customTagLibrary" %>
 <%@taglib prefix="fmt" uri="http://java.sun.com/jstl/fmt" %>
 
-<div class="w3-sidebar alice-blue w3-bar-block" style="width: auto">
+<div class="sidebar alice-blue w3-bar-block" style="width: auto">
     <c:choose>
         <c:when test="${otherUser != null}">
             <div class="user-profile">

@@ -19,7 +19,7 @@
 	</div>
 
 	<!-- Page Content -->
-	<div class="container" style="margin-left: 295px; padding: 25px 50px;">
+	<div class="container story with-sidebar">
 		<c:if test="${otherUser == null}">
 		
 			<!-- Set status -->

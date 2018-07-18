@@ -14,7 +14,7 @@
 		</jsp:include>
 
         <!-- Page Content -->
-        <div class="container">
+        <div class="container story">
             <!-- Set status -->
 			<jsp:include page="/WEB-INF/components/set-status-form.jsp" />
             

@@ -3,7 +3,7 @@
 <%@taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 
 <c:forEach var="item" items="${statuses}">
-    <div class="row first-row">
+    <div class="row">
         <div class="col-sm-2 status-user-img">
             <a href="#"> <c:choose>
                 <c:when test="${item.user.gender == 'male'}">

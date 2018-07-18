@@ -14,6 +14,15 @@ img.logo{
 	border-radius: 0;
 }
 
+.sidebar {
+	height: 100%;
+	position: fixed!important;
+	width: 295px;
+	z-index: 1;
+	overflow: auto;
+	border-right: 1px solid lightgray;
+}
+
 footer {
 	z-index: 2;
 }
@@ -49,14 +58,15 @@ h4, h5 {
 	color: slategray;
 }
 
-.detail-info {
+.detail-info, .chatroom-sidebar {
 	text-align: left;
 }
 
 .info-item {
 	background-color: floralwhite;
 	padding: 0 30px;
-	border: 1px solid bisque;
+	border-top: 1px solid bisque;
+	border-bottom: 1px solid bisque;
 	margin-bottom: 10px;
 	position: relative;
 }
@@ -82,7 +92,7 @@ h4, h5 {
 	border: 2px solid bisque;
 }
 
-.container {
+.story {
 	width: 777px;
 	margin-top: 20px;
 }
@@ -106,4 +116,57 @@ h4, h5 {
 	bottom: 0;
 	margin-top: auto;
 	margin-bottom: auto;
+}
+
+.chat-item {
+	width: 100%;
+	display: block;
+	padding: 8px 16px;
+	text-align: left;
+	border-bottom: 1px solid lightgray;
+	background-color: floralwhite;
+	line-height: 50px;
+	vertical-align: middle;
+	overflow: hidden;
+	color: inherit;
+	cursor: pointer;
+}
+
+.chat-item:hover, .chat-item:focus, .active {
+	background-color: #f1f0f0;
+	color: inherit;
+	text-decoration: none;
+}
+
+.with-sidebar {
+	margin-left: 295px;
+	padding: 15px;
+}
+
+.chat {
+	width: 888px;
+	margin-top: 20px;
+	position: relative;
+	height: calc(100% - 79px);
+}
+
+.left {
+	text-align: left;
+}
+
+.right {
+	text-align: right;
+}
+
+.message span {
+	background-color: #f1f0f0;
+	border-radius: 10px;
+	padding: 10px;
+}
+
+.chatbox {
+	position: absolute;
+	bottom: 0px;
+	width: 100%;
+	padding: 30px 0;
 }
