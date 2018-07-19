@@ -7,8 +7,10 @@ import com.ksv.minglex.model.User;
 
 @Repository("userRepository")
 public interface UserRepository extends JpaRepository<User, Long>, UserRepositoryCustom {
-	
+
 	User findByUsername(String username);
+
 	User findByUsernameAndPassword(String username, String password);
+
 	User findById(int id);
 }

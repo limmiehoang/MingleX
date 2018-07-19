@@ -10,15 +10,23 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "chatroom")
 public class Chatroom {
-	
+
 	@Id
 	@Column(name = "chatroom_id")
 	private int id;
-	
+
 	@ManyToOne
 	@JoinColumn(name = "user1_id", nullable = false)
 	private User user1;
-	
+
+	@ManyToOne
+	@JoinColumn(name = "user2_id", nullable = false)
+	private User user2;
+
+	@Column(name = "created_at")
+
+	private String created_at;
+
 	public int getId() {
 		return id;
 	}
@@ -50,11 +58,4 @@ public class Chatroom {
 	public void setCreated_at(String created_at) {
 		this.created_at = created_at;
 	}
-
-	@ManyToOne
-	@JoinColumn(name = "user2_id", nullable = false)
-	private User user2;
-	
-	@Column(name = "created_at")
-	private String created_at;
 }

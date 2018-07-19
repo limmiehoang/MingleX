@@ -10,5 +10,8 @@ import java.util.List;
 @Repository
 public interface InviteRepository extends JpaRepository<Invite, Long> {
 	<S extends Invite> S save(S entity);
+
 	List<Invite> findBySenderAndRecipient(User sender, User recipient);
+
+	List<Invite> findInviteBySenderAndRecipientAndStatus(User curUser, User chatmate, String status);
 }

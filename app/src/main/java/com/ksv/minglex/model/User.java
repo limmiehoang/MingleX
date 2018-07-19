@@ -3,18 +3,18 @@ package com.ksv.minglex.model;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.NamedNativeQuery;
 import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
 
 import org.hibernate.validator.constraints.Length;
 import org.springframework.data.annotation.Transient;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "user")
 public class User {
-	
+
 	@Id
 	@Column(name = "user_id")
 	private int id;
@@ -25,6 +25,7 @@ public class User {
 	@Length(min = 5, message = "*Your password must have at least 5 characters")
 	@NotEmpty(message = "*Please provide your password")
 	@Transient
+	@JsonIgnore
 	private String password;
 	@Column(name = "gender")
 	@NotEmpty(message = "*Please provide your gender")

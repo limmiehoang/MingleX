@@ -25,7 +25,7 @@ public class UserRestController {
 	public ResponseEntity<Void> updateUser(@RequestBody User user, HttpServletRequest request) {
 		User curUser = sessionService.getCurrentUser(request);
 		if (curUser == null) {
-			return new ResponseEntity<Void>(HttpStatus.FOUND);
+			return new ResponseEntity<Void>(HttpStatus.UNAUTHORIZED);
 		}
 		user.setId(curUser.getId());
 		User resUser = userService.updateUser(user);
