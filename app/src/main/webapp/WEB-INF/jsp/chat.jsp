@@ -28,6 +28,9 @@
                 <a class="chat-item" href="#4">
                     Developer
                 </a>
+                <a class="chat-item" href="#5">
+                    Eva
+                </a>
             </div>
         </div>
     </div>
@@ -49,24 +52,24 @@
         </div>
         <div id="invite-message" class="hidden">
             <p>You haven't chatted yet. Do you want to connect with Alice?</p>
-            <form action="/">
+            <!-- <form action="/"> -->
                 <input type="submit" id="invite" class="btn btn-primary" value="Mingle">
-            </form>
+            <!-- </form> -->
         </div>
         <div id="accept-message" class="hidden">
             <p>Peter wants to connect with you.</p>
-            <form action="/">
+            <!-- <form action="/"> -->
                 <input type="submit" id="accept" class="btn btn-primary" value="Ready to mingle!">
-            </form>
+            <!-- </form> -->
         </div>
         <div id="wait-message" class="hidden">
             <p>You sent an invite to Alice. Waiting for Alice's response...</p>
         </div>
         <div id="connect-message" class="hidden">
             <p>Alice has accepted your invite.</p>
-            <form action="/">
+            <!-- <form action="/"> -->
                 <input type="submit" id="connect" class="btn btn-primary" value="OK">
-            </form>
+            <!-- </form> -->
         </div>
         <div class="chatbox">
             <form action="/" method="POST">
@@ -75,7 +78,7 @@
                         <textarea rows="2"
                                   placeholder="Type a message..."
                                   id="chatbox"
-                                  class="form-control"></textarea>
+                                  class="form-control" disabled="disabled"></textarea>
                     </div>
 
                     <div class="col-md-1 field">
@@ -98,12 +101,8 @@
                 $(this).addClass("active");
             }
 
-            // reset state of message box
-            $(".chat div").each(function() {
-                if (!$(this).hasClass("hidden")) {
-                    $(this).addClass("hidden");                                
-                }
-            })
+            // clean the message area
+            resetMessageArea()
 
             var user_id = this.href.split("#")[1];
             console.log({"user_id": user_id});
@@ -115,26 +114,31 @@
                 },
                 success: function(res) {
                         console.log(res);
-                        handleResponse(res);
+                        responseHandler(res);
                 }
             })
         })
-        function handleResponse(res) {
-            console.log({handleResponse: res.status});
+        function responseHandler(res) {
+            console.log({responseHandler: res.status});
             switch (res.status) {
                 case "waiting":
+                    $("#chatbox").attr("disabled", "disabled");
                     $("#wait-message").removeClass("hidden");
                     break;
                 case "invited":
+                    $("#chatbox").attr("disabled", "disabled");
                     $("#accept-message").removeClass("hidden");
                     break;
                 case "accepted":
+                    $("#chatbox").attr("disabled", "disabled");
                     $("#connect-message").removeClass("hidden")
                     break;
                 case "unconnected":
+                    $("#chatbox").attr("disabled", "disabled");
                     $("#invite-message").removeClass("hidden");
                     break;
                 case "connected":
+                    $("#chatbox").removeAttr("disabled");
                     $("#chatroom").removeClass("hidden");
                     viewMessage(res);
                     break;
@@ -165,6 +169,47 @@
                 }
                 $("#chatroom").append(msgElement);
             });
+        }
+        $("#invite").on("click", function() {
+            var url = "http://localhost:1234/chat/invite";
+            var cur_url = $(location).attr("href");
+            var user_id = cur_url.split("#")[1];
+            postHandler(url, {user_id: user_id})
+        })
+
+        $("#accept").on("click", function() {
+            var url = "http://localhost:1234/chat/accept";
+            var cur_url = $(location).attr("href");
+            var user_id = cur_url.split("#")[1];
+            postHandler(url, {user_id: user_id})
+        })
+        
+        $("#connect").on("click", function() {
+            var url = "http://localhost:1234/chat/connect";
+            var cur_url = $(location).attr("href");
+            var user_id = cur_url.split("#")[1];
+            postHandler(url, {user_id: user_id})
+        })
+        function postHandler(url, data) {
+            console.log({url, data})
+            $.ajax({
+                url: url,
+                method: "POST",
+                data: data,
+                success: function(res) {
+                    resetMessageArea();
+                    responseHandler(res);
+                }
+            })
+        }
+
+        function resetMessageArea() {
+            // clean the message area
+            $(".chat > div").each(function() {
+                if (!$(this).hasClass("hidden") && !$(this).hasClass("chatbox")) {
+                    $(this).addClass("hidden");                                
+                }
+            })
         }
     </script>
 </t:wrapper>
