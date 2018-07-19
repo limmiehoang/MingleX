@@ -121,7 +121,7 @@ h4, h5 {
 .chat-item {
 	width: 100%;
 	display: block;
-	padding: 8px 16px;
+	padding: 0 16px;
 	text-align: left;
 	border-bottom: 1px solid lightgray;
 	background-color: floralwhite;
@@ -140,7 +140,7 @@ h4, h5 {
 
 .with-sidebar {
 	margin-left: 295px;
-	padding: 15px;
+	padding: 15px 50px;
 }
 
 .chat {
@@ -167,6 +167,10 @@ h4, h5 {
 .chatbox {
 	position: absolute;
 	bottom: 0px;
-	width: 100%;
+	width: 788px;
 	padding: 30px 0;
+}
+
+.hidden {
+	display: none;
 }
