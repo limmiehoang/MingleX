@@ -10,4 +10,9 @@ public class BaseController {
 	public String index(Model model) {
 		return "index";
 	}
+
+	@RequestMapping("/chat")
+	public String chat() {
+		return "chat";
+	}
 }

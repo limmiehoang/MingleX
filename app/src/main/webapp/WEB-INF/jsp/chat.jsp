@@ -16,14 +16,17 @@
         <%--Chatroom Sidebar--%>
         <div class="sidebar alice-blue w3-bar-block">
             <div class="chatroom-sidebar">
-                <a class="chat-item active">
+                <a class="chat-item active" href="#1">
                     Alice
                 </a>
-                <a class="chat-item">
+                <a class="chat-item" href="#2">
                     Bob
                 </a>
-                <a class="chat-item">
+                <a class="chat-item" href="#3">
                     Clever
+                </a>
+                <a class="chat-item" href="#4">
+                    Developer
                 </a>
             </div>
         </div>
@@ -83,5 +86,85 @@
         </div>
     </div>
 
+    <script src="https://code.jquery.com/jquery-3.1.0.min.js"></script>
+    <script>
+        // when user click on sidebar link
+        $(".chatroom-sidebar a").on("click", function() {
+            // set active for this element (link of user is chatting with)
+            $(".chatroom-sidebar a").each(function() {
+                $(this).removeClass("active");
+            })
+            if(!$(this).hasClass("active")) {
+                $(this).addClass("active");
+            }
 
+            // reset state of message box
+            $(".chat div").each(function() {
+                if (!$(this).hasClass("hidden")) {
+                    $(this).addClass("hidden");                                
+                }
+            })
+
+            var user_id = this.href.split("#")[1];
+            console.log({"user_id": user_id});
+            $.ajax({
+                url: "http://localhost:1234/chat",
+                method: "POST",
+                data: {
+                    user_id: user_id
+                },
+                success: function(res) {
+                        console.log(res);
+                        handleResponse(res);
+                }
+            })
+        })
+        function handleResponse(res) {
+            console.log({handleResponse: res.status});
+            switch (res.status) {
+                case "waiting":
+                    $("#wait-message").removeClass("hidden");
+                    break;
+                case "invited":
+                    $("#accept-message").removeClass("hidden");
+                    break;
+                case "accepted":
+                    $("#connect-message").removeClass("hidden")
+                    break;
+                case "unconnected":
+                    $("#invite-message").removeClass("hidden");
+                    break;
+                case "connected":
+                    $("#chatroom").removeClass("hidden");
+                    viewMessage(res);
+                    break;
+                default:
+                    break;
+            }
+        }
+        function viewMessage(res) {
+
+            // remove old messages
+            $("#chatroom").empty();
+
+            var sender = res.user_id;
+            var messages = res.message; // message array
+
+            messages.forEach(message => {
+                console.log(message)
+                // if message is of current user, show in left side
+                // if message is of another user, show in right side
+                if(message.sender == sender) {
+                    var msgElement = `<div class="message right">` +
+                                    `<p><span>` + message.content +
+                                    `</span></p></div>`;
+                } else {
+                    var msgElement = `<div class="message left">` +
+                                    `<p><span>` + message.content +
+                                    `</span></p></div>`;
+                }
+                $("#chatroom").append(msgElement);
+            });
+        }
+    </script>
 </t:wrapper>
