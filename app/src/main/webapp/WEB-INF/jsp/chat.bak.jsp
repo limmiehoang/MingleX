@@ -28,8 +28,8 @@
                 <a class="chat-item" href="#5">
                     Developer
                 </a>
-                <a class="chat-item" href="#1">
-                    1
+                <a class="chat-item" href="#6">
+                    Eva
                 </a>
             </div>
         </div>
@@ -83,7 +83,6 @@
 
     <script src="https://code.jquery.com/jquery-3.1.0.min.js"></script>
     <script>
-        var roomId = null;
         // when user click on sidebar link
         $(".chatroom-sidebar a").on("click", function() {
             // set active for this element (link of user is chatting with)
@@ -98,12 +97,12 @@
             resetMessageArea()
 
             var user_id = this.href.split("#")[1];
-            console.log({"chatmateId": user_id});
+            console.log({"user_id": user_id});
             $.ajax({
-                url: "/room/chatmate",
-                method: "GET",
+                url: "http://localhost:1234/chat",
+                method: "POST",
                 data: {
-                    chatmateId: user_id
+                    user_id: user_id
                 },
                 success: function(res) {
                         console.log(res);
@@ -146,11 +145,9 @@
 
             var sender = res.user_id;
             var messages = res.message; // message array
-            if (messages == null) {
-                return;
-            }
+
             messages.forEach(message => {
-                console.log(message);
+                console.log(message)
                 // if message is of current user, show in left side
                 // if message is of another user, show in right side
                 if(message.sender == sender) {
@@ -166,48 +163,31 @@
             });
         }
         $("#invite").on("click", function() {
-            var url = "/room/invite";
+            var url = "http://localhost:1234/chat/invite";
             var cur_url = $(location).attr("href");
             var user_id = cur_url.split("#")[1];
-            postHandler(url, {
-                recipient: {
-                    id: user_id
-                },
-                message: "123,456,789"
-            })
+            postHandler(url, {user_id: user_id})
         })
 
         $("#accept").on("click", function() {
-            var url = "/room/accept";
+            var url = "http://localhost:1234/chat/accept";
             var cur_url = $(location).attr("href");
             var user_id = cur_url.split("#")[1];
-            postHandler(url, {
-                chatmate: {
-                    id: user_id
-                },
-                invite: {
-                    feedback: "111"
-                }
-            })
+            postHandler(url, {user_id: user_id})
         })
         
         $("#connect").on("click", function() {
-            var url = "/room/connect";
+            var url = "http://localhost:1234/chat/connect";
             var cur_url = $(location).attr("href");
             var user_id = cur_url.split("#")[1];
-            postHandler(url, {
-                chatmate: {
-                    id: user_id
-                }
-            })
+            postHandler(url, {user_id: user_id})
         })
         function postHandler(url, data) {
             console.log({url, data})
             $.ajax({
                 url: url,
                 method: "POST",
-                contentType: 'application/json',
-                data: JSON.stringify(data),
+                data: data,
                 success: function(res) {
                     resetMessageArea();
                     responseHandler(res);

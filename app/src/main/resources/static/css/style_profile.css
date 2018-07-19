@@ -148,6 +148,7 @@ h4, h5 {
 	margin-top: 20px;
 	position: relative;
 	height: calc(100% - 79px);
+	overflow: scroll;
 }
 
 .left {
