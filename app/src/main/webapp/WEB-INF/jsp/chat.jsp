@@ -52,40 +52,32 @@
         </div>
         <div id="invite-message" class="hidden">
             <p>You haven't chatted yet. Do you want to connect with Alice?</p>
-            <!-- <form action="/"> -->
                 <input type="submit" id="invite" class="btn btn-primary" value="Mingle">
-            <!-- </form> -->
         </div>
         <div id="accept-message" class="hidden">
             <p>Peter wants to connect with you.</p>
-            <!-- <form action="/"> -->
                 <input type="submit" id="accept" class="btn btn-primary" value="Ready to mingle!">
-            <!-- </form> -->
         </div>
         <div id="wait-message" class="hidden">
             <p>You sent an invite to Alice. Waiting for Alice's response...</p>
         </div>
         <div id="connect-message" class="hidden">
             <p>Alice has accepted your invite.</p>
-            <!-- <form action="/"> -->
                 <input type="submit" id="connect" class="btn btn-primary" value="OK">
-            <!-- </form> -->
         </div>
         <div class="chatbox">
-            <form action="/" method="POST">
-                <div class="form-group row">
-                    <div class="col-md-11 field">
-                        <textarea rows="2"
-                                  placeholder="Type a message..."
-                                  id="chatbox"
-                                  class="form-control" disabled="disabled"></textarea>
-                    </div>
-
-                    <div class="col-md-1 field">
-                        <input type="submit" id="sendMessage" class="btn btn-primary" value="Send">
-                    </div>
+            <div class="form-group row">
+                <div class="col-md-11 field">
+                    <textarea rows="2"
+                                placeholder="Type a message..."
+                                id="chatbox"
+                                class="form-control" disabled="disabled"></textarea>
                 </div>
-            </form>
+
+                <div class="col-md-1 field">
+                    <input type="submit" id="sendMessage" class="btn btn-primary" value="Send">
+                </div>
+            </div>
         </div>
     </div>
 
@@ -209,6 +201,27 @@
                 if (!$(this).hasClass("hidden") && !$(this).hasClass("chatbox")) {
                     $(this).addClass("hidden");                                
                 }
+            })
+        }
+
+        function messageSender() {
+            $("#sendMessage").on("click", function() {
+                var message = $("#chatbox").val();
+                var url = "http://localhost:1234/chat/connect";
+                var cur_url = $(location).attr("href");
+                var user_id = cur_url.split("#")[1];
+                var data = {
+                    user_id: user_id,
+                    message: message
+                }
+                $.ajax({
+                    url: url,
+                    method: "POST",
+                    data: data,
+                    success: function(res) {
+                       console.log(res);
+                    }
+                })
             })
         }
     </script>
