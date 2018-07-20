@@ -1,7 +1,7 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
+<%@page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+<%@taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 
 <%@taglib prefix="t" tagdir="/WEB-INF/tags" %>
 
@@ -16,110 +16,18 @@
         <%--Chatroom Sidebar--%>
         <div class="sidebar alice-blue w3-bar-block">
             <div class="chatroom-sidebar">
-                <a class="chat-item active" href="#2">
-                    Alice
-                </a>
-                <a class="chat-item" href="#3">
-                    Bob
-                </a>
-                <a class="chat-item" href="#4">
-                    Clever
-                </a>
-                <a class="chat-item" href="#5">
-                    Developer
-                </a>
-                <a class="chat-item" href="#1">
-                    1
-                </a>
+                <c:forEach var="chatmate" items="${chatmates}">
+                    <a class="chat-item" href="#<c:out value="${chatmate.id}"/>">
+                        <c:out value="${chatmate.username}"/>
+                    </a>
+                </c:forEach>
             </div>
         </div>
     </div>
 
     <!-- Chatroom Content -->
     <div class="container chat with-sidebar">
-        <div id="chatroom" class="">
-            <div class="message left">
-                <p><span>Hi there!</span></p>
-            </div>
-
-            <div class="message right">
-                <p><span>Hi there!</span></p>
-            </div>
-
-            <div class="message left">
-                <p><span>Hi there!</span></p>
-            </div>
-            <div class="message left">
-                <p><span>Hi there!</span></p>
-            </div>
-
-            <div class="message right">
-                <p><span>Hi there!</span></p>
-            </div>
-
-            <div class="message left">
-                <p><span>Hi there!</span></p>
-            </div><div class="message left">
-            <p><span>Hi there!</span></p>
-        </div>
-
-            <div class="message right">
-                <p><span>Hi there!</span></p>
-            </div>
-
-            <div class="message left">
-                <p><span>Hi there!</span></p>
-            </div><div class="message left">
-            <p><span>Hi there!</span></p>
-        </div>
-
-            <div class="message right">
-                <p><span>Hi there!</span></p>
-            </div>
-
-            <div class="message left">
-                <p><span>Hi there!</span></p>
-            </div><div class="message left">
-            <p><span>Hi there!</span></p>
-        </div>
-
-            <div class="message right">
-                <p><span>Hi there!</span></p>
-            </div>
-
-            <div class="message left">
-                <p><span>Hi there!</span></p>
-            </div><div class="message left">
-            <p><span>Hi there!</span></p>
-        </div>
-
-            <div class="message right">
-                <p><span>Hi there!</span></p>
-            </div>
-
-            <div class="message left">
-                <p><span>Hi there!</span></p>
-            </div><div class="message left">
-            <p><span>Hi there!</span></p>
-        </div>
-
-            <div class="message right">
-                <p><span>Hi there!</span></p>
-            </div>
-
-            <div class="message left">
-                <p><span>Hi there!</span></p>
-            </div><div class="message left">
-            <p><span>Hi there!</span></p>
-        </div>
-
-            <div class="message right">
-                <p><span>Hi there!</span></p>
-            </div>
-
-            <div class="message left">
-                <p><span>Hi there!</span></p>
-            </div>
+        <div id="chatroom">
         </div>
         <div id="invite-message" class="hidden">
             <p>You haven't chatted yet. Do you want to connect with Alice?</p>
