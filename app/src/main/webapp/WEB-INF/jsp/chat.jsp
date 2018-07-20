@@ -37,10 +37,81 @@
 
     <!-- Chatroom Content -->
     <div class="container chat with-sidebar">
-        <div id="chatroom" class="hidden">
+        <div id="chatroom" class="">
             <div class="message left">
                 <p><span>Hi there!</span></p>
             </div>
+
+            <div class="message right">
+                <p><span>Hi there!</span></p>
+            </div>
+
+            <div class="message left">
+                <p><span>Hi there!</span></p>
+            </div>
+            <div class="message left">
+                <p><span>Hi there!</span></p>
+            </div>
+
+            <div class="message right">
+                <p><span>Hi there!</span></p>
+            </div>
+
+            <div class="message left">
+                <p><span>Hi there!</span></p>
+            </div><div class="message left">
+            <p><span>Hi there!</span></p>
+        </div>
+
+            <div class="message right">
+                <p><span>Hi there!</span></p>
+            </div>
+
+            <div class="message left">
+                <p><span>Hi there!</span></p>
+            </div><div class="message left">
+            <p><span>Hi there!</span></p>
+        </div>
+
+            <div class="message right">
+                <p><span>Hi there!</span></p>
+            </div>
+
+            <div class="message left">
+                <p><span>Hi there!</span></p>
+            </div><div class="message left">
+            <p><span>Hi there!</span></p>
+        </div>
+
+            <div class="message right">
+                <p><span>Hi there!</span></p>
+            </div>
+
+            <div class="message left">
+                <p><span>Hi there!</span></p>
+            </div><div class="message left">
+            <p><span>Hi there!</span></p>
+        </div>
+
+            <div class="message right">
+                <p><span>Hi there!</span></p>
+            </div>
+
+            <div class="message left">
+                <p><span>Hi there!</span></p>
+            </div><div class="message left">
+            <p><span>Hi there!</span></p>
+        </div>
+
+            <div class="message right">
+                <p><span>Hi there!</span></p>
+            </div>
+
+            <div class="message left">
+                <p><span>Hi there!</span></p>
+            </div><div class="message left">
+            <p><span>Hi there!</span></p>
+        </div>
 
             <div class="message right">
                 <p><span>Hi there!</span></p>

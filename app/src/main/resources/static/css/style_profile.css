@@ -151,12 +151,23 @@ h4, h5 {
 	overflow: scroll;
 }
 
+#chatroom {
+	width: 100%;
+	height: calc(100% - 129px);
+	overflow: auto;
+}
+
 .left {
 	text-align: left;
 }
 
 .right {
 	text-align: right;
+}
+
+.message {
+	margin-bottom: 30px;
+	margin-right: 20px;
 }
 
 .message span {
