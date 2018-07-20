@@ -182,6 +182,7 @@
                 }
             })
         })
+        
         function responseHandler(res) {
             console.log({responseHandler: res.status});
             switch (res.status) {
@@ -205,13 +206,14 @@
                     $("#chatbox").removeAttr("disabled");
                     $("#chatroom").removeClass("hidden");
                     roomId = res.chatroom.id;
-                    enableMessageSender(res);
+                    enableMessageSender(res, roomId);
                     viewMessage(res);
                     break;
                 default:
                     break;
             }
         }
+
         function viewMessage(res) {
 
             // remove old messages
@@ -238,6 +240,7 @@
                 $("#chatroom").append(msgElement);
             });
         }
+
         $("#invite").on("click", function() {
             var url = "/room/invite";
             var cur_url = $(location).attr("href");
@@ -274,6 +277,7 @@
                 }
             })
         })
+
         function postHandler(url, data) {
             console.log({url, data})
             $.ajax({
@@ -297,9 +301,10 @@
             })
         }
 
-        function enableMessageSender(res) {
+        function enableMessageSender(res, roomId) {
             $("#sendMessage").unbind("click").on("click", function() {
                 var message = $("#chatbox").val(); // get message from textarea
+                if(message.trim() == "") return;
                 $("#chatbox").val("");            // remove message from textarea
 
                 // show message just be sent
@@ -327,5 +332,27 @@
                 })
             })
         }
+
+        function updateMessage(user_id) {
+            if(typeof(user_id) == "undefined") return;
+            console.log("Update message! user_id=" + user_id);
+            $.ajax({
+                url: "/room/chatmate",
+                method: "GET",
+                data: {
+                    chatmateId: user_id
+                },
+                success: function(res) {
+                        console.log(res);
+                        responseHandler(res);
+                }
+            })
+        }
+
+        // Auto update message after 6s
+        setInterval(function() {
+            var user_id = $(location).attr("href").split("#")[1];
+            updateMessage(user_id);
+        }, 6000)
     </script>
 </t:wrapper>
