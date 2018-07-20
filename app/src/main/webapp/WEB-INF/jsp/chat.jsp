@@ -204,6 +204,7 @@
                 case "connected":
                     $("#chatbox").removeAttr("disabled");
                     $("#chatroom").removeClass("hidden");
+                    enableMessageSender(res);
                     viewMessage(res);
                     break;
                 default:
@@ -215,8 +216,8 @@
             // remove old messages
             $("#chatroom").empty();
 
-            var sender = res.user_id;
-            var messages = res.message; // message array
+            var sender = $(location).attr("href").split("#")[1];
+            var messages = res.messages; // message array
             if (messages == null) {
                 return;
             }
@@ -224,7 +225,7 @@
                 console.log(message);
                 // if message is of current user, show in left side
                 // if message is of another user, show in right side
-                if(message.sender == sender) {
+                if(message.sender.id == sender) {
                     var msgElement = `<div class="message right">` +
                                     `<p><span>` + message.content +
                                     `</span></p></div>`;
@@ -295,20 +296,23 @@
             })
         }
 
-        function messageSender() {
+        function enableMessageSender(res) {
             $("#sendMessage").on("click", function() {
                 var message = $("#chatbox").val();
-                var url = "http://localhost:1234/chat/connect";
+                var url = "/room/chat";
                 var cur_url = $(location).attr("href");
                 var user_id = cur_url.split("#")[1];
                 var data = {
-                    user_id: user_id,
-                    message: message
+                    chatroom: {
+                        id: res.chatroom.id
+                    },
+                    content: message
                 }
                 $.ajax({
                     url: url,
                     method: "POST",
-                    data: data,
+                    data: JSON.stringify(data),
+                    contentType: 'application/json',
                     success: function(res) {
                        console.log(res);
                     }
