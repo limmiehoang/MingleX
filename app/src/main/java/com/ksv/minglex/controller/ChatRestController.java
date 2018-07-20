@@ -94,9 +94,10 @@ public class ChatRestController {
 		Chatroom chatroom = chatroomService.findByUser1AndUser2(curUser, chatmate);
 		if (chatroom != null) {
 			invite = inviteService.findInviteBySenderAndRecipient(chatmate, curUser);
-			if (invite != null && "accepted".equals(invite.getStatus())) {
-				// La nguoi nhan thu moi, status accepted -> da accepted va dang doi ng gui loi
-				// moi nhan OK
+			if (invite != null && ("accepted".equals(invite.getStatus()) || "connected".equals(invite.getStatus()))) {
+				// La nguoi nhan thu moi
+				// Status accepted -> da accepted va dang doi ng gui loi moi nhan OK
+				// Status connected
 				// return connected and messages
 				resObj.setStatus("connected");
 				resObj.setChatroom(chatroom);
