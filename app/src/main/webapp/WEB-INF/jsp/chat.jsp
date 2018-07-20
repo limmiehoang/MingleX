@@ -17,7 +17,7 @@
         <div class="sidebar alice-blue w3-bar-block">
             <div class="chatroom-sidebar">
                 <c:forEach var="chatmate" items="${chatmates}">
-                    <a class="chat-item" href="#<c:out value="${chatmate.id}"/>">
+                    <a class="chat-item capitalize" href="#<c:out value="${chatmate.id}"/>">
                         <c:out value="${chatmate.username}"/>
                     </a>
                 </c:forEach>
@@ -89,6 +89,7 @@
                         responseHandler(res);
                 }
             })
+            scrollToBottom();
         })
         
         function responseHandler(res) {
@@ -211,38 +212,41 @@
 
         function enableMessageSender(res, roomId) {
             $("#sendMessage").unbind("click").on("click", function() {
-                var message = $("#chatbox").val(); // get message from textarea
-                if(message.trim() == "") return;
-                $("#chatbox").val("");            // remove message from textarea
-
-                // show message just be sent
-                var msgElement = `<div class="message right">` +
-                                `<p><span>` + message +
-                                `</span></p></div>`;
-                $("#chatroom").append(msgElement);
-                scrollToBottom();
-
-                var url = "/room/chat";
-                var cur_url = $(location).attr("href");
-                var user_id = cur_url.split("#")[1];
-                var data = {
-                    chatroom: {
-                        id: roomId
-                    },
-                    content: message
-                }
-                $.ajax({
-                    url: url,
-                    method: "POST",
-                    data: JSON.stringify(data),
-                    contentType: 'application/json',
-                    success: function(res) {
-                       console.log(res);
-                    }
-                })
+                sendMessage(roomId);
             })
         }
 
+        function sendMessage(roomId) {
+            var message = $("#chatbox").val(); // get message from textarea
+            $("#chatbox").val("");            // remove message from textarea
+            if(message.trim() == "") return;
+
+            // show message just be sent
+            var msgElement = `<div class="message right">` +
+                            `<p><span>` + message +
+                            `</span></p></div>`;
+            $("#chatroom").append(msgElement);
+            scrollToBottom();
+
+            var url = "/room/chat";
+            var cur_url = $(location).attr("href");
+            var user_id = cur_url.split("#")[1];
+            var data = {
+                chatroom: {
+                    id: roomId
+                },
+                content: message
+            }
+            $.ajax({
+                url: url,
+                method: "POST",
+                data: JSON.stringify(data),
+                contentType: 'application/json',
+                success: function(res) {
+                    console.log(res);
+                }
+            })
+        }
         function updateMessage(user_id) {
             if(typeof(user_id) == "undefined") return;
             console.log("Update message! user_id=" + user_id);
@@ -268,5 +272,12 @@
         function scrollToBottom() {
             $("#chatroom").animate({ scrollTop: 9999 }, 100);
         }
+
+        $("#chatbox").on("keydown", function(e) {
+            if(e.keyCode == 13) {
+                console.log("Press enter in message box => Send the message ...");
+                sendMessage(roomId);
+            }
+        })
     </script>
 </t:wrapper>
