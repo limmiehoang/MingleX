@@ -312,6 +312,8 @@
                                 `<p><span>` + message +
                                 `</span></p></div>`;
                 $("#chatroom").append(msgElement);
+                scrollToBottom();
+
                 var url = "/room/chat";
                 var cur_url = $(location).attr("href");
                 var user_id = cur_url.split("#")[1];
@@ -354,5 +356,9 @@
             var user_id = $(location).attr("href").split("#")[1];
             updateMessage(user_id);
         }, 6000)
+
+        function scrollToBottom() {
+            $("#chatroom").animate({ scrollTop: 9999 }, 100);
+        }
     </script>
 </t:wrapper>
