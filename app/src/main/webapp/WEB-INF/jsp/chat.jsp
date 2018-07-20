@@ -204,6 +204,7 @@
                 case "connected":
                     $("#chatbox").removeAttr("disabled");
                     $("#chatroom").removeClass("hidden");
+                    roomId = res.chatroom.id;
                     enableMessageSender(res);
                     viewMessage(res);
                     break;
@@ -225,7 +226,7 @@
                 console.log(message);
                 // if message is of current user, show in left side
                 // if message is of another user, show in right side
-                if(message.sender.id == sender) {
+                if(message.sender.id != sender) {
                     var msgElement = `<div class="message right">` +
                                     `<p><span>` + message.content +
                                     `</span></p></div>`;
@@ -297,14 +298,21 @@
         }
 
         function enableMessageSender(res) {
-            $("#sendMessage").on("click", function() {
-                var message = $("#chatbox").val();
+            $("#sendMessage").unbind("click").on("click", function() {
+                var message = $("#chatbox").val(); // get message from textarea
+                $("#chatbox").val("");            // remove message from textarea
+
+                // show message just be sent
+                var msgElement = `<div class="message right">` +
+                                `<p><span>` + message +
+                                `</span></p></div>`;
+                $("#chatroom").append(msgElement);
                 var url = "/room/chat";
                 var cur_url = $(location).attr("href");
                 var user_id = cur_url.split("#")[1];
                 var data = {
                     chatroom: {
-                        id: res.chatroom.id
+                        id: roomId
                     },
                     content: message
                 }
