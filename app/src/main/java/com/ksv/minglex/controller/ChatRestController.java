@@ -66,7 +66,8 @@ public class ChatRestController {
 			Chatroom chatroom = new Chatroom();
 			chatroom.setUser1(res.getChatmate());
 			chatroom.setUser2(curUser);
-			chatroom = chatroomService.save(chatroom);
+			chatroomService.save(chatroom);
+			chatroom = chatroomService.findByUser1AndUser2(res.getChatmate(), curUser);
 
 			// Response connected and key exchange infomation
 			ChatroomResJSONObj resObj = new ChatroomResJSONObj();

@@ -88,4 +88,9 @@ public class UserServiceImpl implements UserService {
         return userDb;
     }
 
+	@Override
+	public List<User> findAllExceptMe(User user) {
+		return userRepository.findAllExceptMe(user);
+	}
+
 }
