@@ -110,6 +110,7 @@ public class ChatRestController {
 				// La nguoi gui thu moi, status accepted -> nguoi dc moi accepted
 				// return accepted
 				resObj.setStatus("accepted");
+				resObj.setInvite(invite);
 				return new ResponseEntity<ChatroomResJSONObj>(resObj, HttpStatus.OK);
 			}
 			if (invite != null && "connected".equals(invite.getStatus())) {
@@ -134,6 +135,7 @@ public class ChatRestController {
 				// la nguoi nhan thu moi, nhung chua tra loi, chua co room
 				// return invited
 				resObj.setStatus("invited");
+				resObj.setInvite(invite);
 				return new ResponseEntity<ChatroomResJSONObj>(resObj, HttpStatus.OK);
 			}
 			resObj.setStatus("unconnected");
@@ -163,7 +165,6 @@ public class ChatRestController {
 			resObj.setMessages(messageService.findByChatroom(chatroom));
 			resObj.setStatus("connected");
 			resObj.setChatroom(chatroom);
-			resObj.setInvite(invite);
 			return new ResponseEntity<ChatroomResJSONObj>(resObj, HttpStatus.OK);
 		}
 
