@@ -61,8 +61,13 @@
     </div>
 
     <script src="https://code.jquery.com/jquery-3.1.0.min.js"></script>
+    <script src="js/secure-random.js"></script>
+    <script src="js/key-exchange-tools.js"></script>
     <script>
         var roomId = null;
+        var chatmateId = null;
+        var invite_message = null;
+        var invite_feedback = null;
         // when user click on sidebar link
         $(".chatroom-sidebar a").on("click", function() {
             // set active for this element (link of user is chatting with)
@@ -77,6 +82,7 @@
             resetMessageArea()
 
             var user_id = this.href.split("#")[1];
+            chatmateId = user_id;
             console.log({"chatmateId": user_id});
             $.ajax({
                 url: "/room/chatmate",
@@ -102,10 +108,12 @@
                 case "invited":
                     $("#chatbox").attr("disabled", "disabled");
                     $("#accept-message").removeClass("hidden");
+                    invite_message = res.invite.message;
                     break;
                 case "accepted":
                     $("#chatbox").attr("disabled", "disabled");
-                    $("#connect-message").removeClass("hidden")
+                    $("#connect-message").removeClass("hidden");
+                    invite_feedback = res.invite.feedback;
                     break;
                 case "unconnected":
                     $("#chatbox").attr("disabled", "disabled");
@@ -154,11 +162,16 @@
             var url = "/room/invite";
             var cur_url = $(location).attr("href");
             var user_id = cur_url.split("#")[1];
+            var p = generate_prime(16);
+            var g = first_primitive_root(p);
+            var my_x = generate_private_number(32);
+            localStorage.setItem("pn" + chatmateId, my_x);
+            var my_y = mod_exp(g, my_x, p);
             postHandler(url, {
                 recipient: {
                     id: user_id
                 },
-                message: "123,456,789"
+                message: g + "," + p + "," + my_y
             })
         })
 
@@ -166,12 +179,19 @@
             var url = "/room/accept";
             var cur_url = $(location).attr("href");
             var user_id = cur_url.split("#")[1];
+            var g = invite_message.split(",")[0];
+            var p = invite_message.split(",")[1];
+            var y = invite_message.split(",")[2];
+            var my_x = generate_private_number(32);
+            var my_y = mod_exp(g, my_x, p);
+            var key = mod_exp(y, my_x, p);
+            localStorage.setItem("k" + chatmateId, key);
             postHandler(url, {
                 chatmate: {
                     id: user_id
                 },
                 invite: {
-                    feedback: "111"
+                    feedback: my_y + "," + p
                 }
             })
         })
@@ -180,6 +200,11 @@
             var url = "/room/connect";
             var cur_url = $(location).attr("href");
             var user_id = cur_url.split("#")[1];
+            var y = invite_feedback.split(",")[0];
+            var p = invite_feedback.split(",")[1];
+            var my_x = localStorage.getItem("pn" + chatmateId);
+            var key = mod_exp(y, my_x, p);
+            localStorage.setItem("k" + chatmateId, key);
             postHandler(url, {
                 chatmate: {
                     id: user_id
@@ -195,6 +220,7 @@
                 contentType: 'application/json',
                 data: JSON.stringify(data),
                 success: function(res) {
+                    console.log(res);
                     resetMessageArea();
                     responseHandler(res);
                 }
