@@ -119,6 +119,8 @@ h4, h5 {
 }
 
 .chat-item {
+	font-weight: bold;
+	color: darkslategray;
 	width: 100%;
 	display: block;
 	padding: 0 16px;
@@ -126,9 +128,7 @@ h4, h5 {
 	border-bottom: 1px solid lightgray;
 	background-color: floralwhite;
 	line-height: 50px;
-	vertical-align: middle;
 	overflow: hidden;
-	color: inherit;
 	cursor: pointer;
 }
 
@@ -165,7 +165,8 @@ h4, h5 {
 }
 
 .message {
-	margin-bottom: 30px;
+	margin-top: 15px;
+	margin-bottom: 15px;
 	margin-right: 20px;
 }
 
@@ -184,4 +185,9 @@ h4, h5 {
 
 .hidden {
 	display: none;
+}
+
+.chatmate-username {
+	font-weight: bold;
+	color: #90b1dc;
 }

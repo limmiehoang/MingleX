@@ -2,7 +2,7 @@
          pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
-
+<%@taglib prefix="cg" uri="/WEB-INF/tld/customTagLibrary" %>
 <%@taglib prefix="t" tagdir="/WEB-INF/tags" %>
 
 <t:wrapper title="Chat">
@@ -17,9 +17,7 @@
         <div class="sidebar alice-blue w3-bar-block">
             <div class="chatroom-sidebar">
                 <c:forEach var="chatmate" items="${chatmates}">
-                    <a class="chat-item capitalize" href="#<c:out value="${chatmate.id}"/>">
-                        <c:out value="${chatmate.username}"/>
-                    </a>
+                    <a class="chat-item" href="#<c:out value="${chatmate.id}"/>"><c:out value="${chatmate.username}"/></a>
                 </c:forEach>
             </div>
         </div>
@@ -30,27 +28,27 @@
         <div id="chatroom">
         </div>
         <div id="invite-message" class="hidden">
-            <p>You haven't chatted yet. Do you want to connect with Alice?</p>
+            <p>You haven't chatted yet. Do you want to connect with <span class="chatmate-username"></span>?</p>
                 <input type="submit" id="invite" class="btn btn-primary" value="Mingle">
         </div>
         <div id="accept-message" class="hidden">
-            <p>Peter wants to connect with you.</p>
+            <p><span class="chatmate-username"></span> wants to connect with you.</p>
                 <input type="submit" id="accept" class="btn btn-primary" value="Ready to mingle!">
         </div>
         <div id="wait-message" class="hidden">
-            <p>You sent an invite to Alice. Waiting for Alice's response...</p>
+            <p>You sent an invite to <span class="chatmate-username"></span>. Waiting for <span class="chatmate-username"></span>'s response...</p>
         </div>
         <div id="connect-message" class="hidden">
-            <p>Alice has accepted your invite.</p>
+            <p><span class="chatmate-username"></span> has accepted your invite.</p>
                 <input type="submit" id="connect" class="btn btn-primary" value="OK">
         </div>
-        <div class="chatbox">
+        <div class="chatbox hidden">
             <div class="form-group row">
                 <div class="col-md-11 field">
                     <textarea rows="2"
                                 placeholder="Type a message..."
                                 id="chatbox"
-                                class="form-control" disabled="disabled"></textarea>
+                                class="form-control"></textarea>
                 </div>
 
                 <div class="col-md-1 field">
@@ -66,6 +64,7 @@
     <script>
         var roomId = null;
         var chatmateId = null;
+        var chatmateUsername = null;
         var invite_message = null;
         var invite_feedback = null;
         // when user click on sidebar link
@@ -81,14 +80,15 @@
             // clean the message area
             resetMessageArea()
 
-            var user_id = this.href.split("#")[1];
-            chatmateId = user_id;
-            console.log({"chatmateId": user_id});
+            chatmateId = this.href.split("#")[1];
+            chatmateUsername = this.innerHTML;
+
+            console.log({"chatmateId": chatmateId});
             $.ajax({
                 url: "/room/chatmate",
                 method: "GET",
                 data: {
-                    chatmateId: user_id
+                    chatmateId: chatmateId
                 },
                 success: function(res) {
                         console.log(res);
@@ -102,25 +102,30 @@
             console.log({responseHandler: res.status});
             switch (res.status) {
                 case "waiting":
-                    $("#chatbox").attr("disabled", "disabled");
+                    $(".chatbox").addClass("hidden");
                     $("#wait-message").removeClass("hidden");
+                    $(".chatmate-username").text(chatmateUsername);
                     break;
                 case "invited":
-                    $("#chatbox").attr("disabled", "disabled");
+                    $(".chatbox").addClass("hidden");
                     $("#accept-message").removeClass("hidden");
+                    $(".chatmate-username").text(chatmateUsername);
                     invite_message = res.invite.message;
                     break;
                 case "accepted":
-                    $("#chatbox").attr("disabled", "disabled");
+                    $(".chatbox").addClass("hidden");
+                    $("#wait-message").addClass("hidden");
                     $("#connect-message").removeClass("hidden");
+                    $(".chatmate-username").text(chatmateUsername);
                     invite_feedback = res.invite.feedback;
                     break;
                 case "unconnected":
-                    $("#chatbox").attr("disabled", "disabled");
+                    $(".chatbox").addClass("hidden");
                     $("#invite-message").removeClass("hidden");
+                    $(".chatmate-username").text(chatmateUsername);
                     break;
                 case "connected":
-                    $("#chatbox").removeAttr("disabled");
+                    $(".chatbox").removeClass("hidden");
                     $("#chatroom").removeClass("hidden");
                     roomId = res.chatroom.id;
                     enableMessageSender(res, roomId);
