@@ -58,10 +58,15 @@
         </div>
     </div>
 
-    <script src="https://code.jquery.com/jquery-3.1.0.min.js"></script>
-    <script src="js/secure-random.js"></script>
-    <script src="js/key-exchange-tools.js"></script>
-    <script>
+	<script src="https://code.jquery.com/jquery-3.1.0.min.js"></script>
+	<script src="js/secure-random.js"></script>
+	<script src="js/key-exchange-tools.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.2/components/core-min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.2/components/sha1.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.2/components/enc-base64.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.2/rollups/aes.js"></script>
+	<script src="js/crypto-aes.js"></script>
+	<script>
         var roomId = null;
         var chatmateId = null;
         var chatmateUsername = null;
@@ -150,13 +155,14 @@
                 console.log(message);
                 // if message is of current user, show in left side
                 // if message is of another user, show in right side
+                var plaintext = decrypt(message.content, localStorage.getItem("k" + chatmateId));
                 if(message.sender.id != sender) {
                     var msgElement = `<div class="message right">` +
-                                    `<p><span>` + message.content +
+                                    `<p><span>` + plaintext +
                                     `</span></p></div>`;
                 } else {
                     var msgElement = `<div class="message left">` +
-                                    `<p><span>` + message.content +
+                                    `<p><span>` + plaintext +
                                     `</span></p></div>`;
                 }
                 $("#chatroom").append(msgElement);
@@ -208,6 +214,7 @@
             var y = invite_feedback.split(",")[0];
             var p = invite_feedback.split(",")[1];
             var my_x = localStorage.getItem("pn" + chatmateId);
+            localStorage.removeItem("pn" + chatmateId);
             var key = mod_exp(y, my_x, p);
             localStorage.setItem("k" + chatmateId, key);
             postHandler(url, {
@@ -249,6 +256,7 @@
 
         function sendMessage(roomId) {
             var message = $("#chatbox").val(); // get message from textarea
+            var ciphertext = encrypt(message, localStorage.getItem("k" + chatmateId));
             $("#chatbox").val("");            // remove message from textarea
             if(message.trim() == "") return;
 
@@ -266,7 +274,7 @@
                 chatroom: {
                     id: roomId
                 },
-                content: message
+                content: ciphertext
             }
             $.ajax({
                 url: url,
@@ -306,6 +314,7 @@
 
         $("#chatbox").on("keydown", function(e) {
             if(e.keyCode == 13) {
+                e.preventDefault();
                 console.log("Press enter in message box => Send the message ...");
                 sendMessage(roomId);
             }

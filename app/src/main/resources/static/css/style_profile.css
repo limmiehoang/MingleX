@@ -119,7 +119,6 @@ h4, h5 {
 }
 
 .chat-item {
-	font-weight: bold;
 	color: darkslategray;
 	width: 100%;
 	display: block;
@@ -134,7 +133,6 @@ h4, h5 {
 
 .chat-item:hover, .chat-item:focus, .active {
 	background-color: #f1f0f0;
-	color: inherit;
 	text-decoration: none;
 }
 
