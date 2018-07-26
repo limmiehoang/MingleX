@@ -174,6 +174,11 @@ h4, h5 {
 	padding: 10px;
 }
 
+.message.right span {
+	background-color: #90b1dc;
+	color: white;
+}
+
 .chatbox {
 	position: absolute;
 	bottom: 0px;
