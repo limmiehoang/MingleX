@@ -4,15 +4,22 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.servlet.HandlerInterceptor;
 
+import com.ksv.minglex.setting.SecuritySetting;
+
 public class CSRFPreventionInterceptor implements HandlerInterceptor {
+	
+	@Autowired
+	SecuritySetting securitySetting;
+	
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws Exception {
 
 		// Check csrf token
-		if (request.getMethod().matches("POST|PUT|PATCH|DELETE")) {
+		if (securitySetting.getCsrf() && request.getMethod().matches("POST|PUT|PATCH|DELETE")) {
 			HttpSession httpSession = request.getSession();
 			String _csrf = (String) httpSession.getAttribute("_csrf");
 			String _csrfParam = null;

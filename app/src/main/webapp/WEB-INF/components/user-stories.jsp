@@ -27,9 +27,9 @@
             </p>
 
             <%--Switch Stored XSS--%>
-            <fmt:bundle basename="application">
+            <%-- <fmt:bundle basename="application">
                 <fmt:message key="security.stored-xss" var="storedXss"/>
-            </fmt:bundle>
+            </fmt:bundle> --%>
 
             <c:if test="${storedXss == 'HTMLEscapeOnly' || storedXss == 'Protected'}">
                 <p>${cg:escapeHtml(item.description)}</p>

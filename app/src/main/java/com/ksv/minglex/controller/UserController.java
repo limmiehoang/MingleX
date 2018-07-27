@@ -19,6 +19,7 @@ import com.ksv.minglex.model.User;
 import com.ksv.minglex.service.SessionService;
 import com.ksv.minglex.service.StatusService;
 import com.ksv.minglex.service.UserService;
+import com.ksv.minglex.setting.SecuritySetting;
 
 @Controller
 public class UserController {
@@ -29,6 +30,8 @@ public class UserController {
 	private StatusService statusService;
 	@Autowired
 	private SessionService sessionService;
+	@Autowired
+	private SecuritySetting securitySetting;
 
 	@RequestMapping(value = "/login", method = RequestMethod.GET)
 	public ModelAndView loginView(HttpServletRequest request) {
@@ -136,6 +139,7 @@ public class UserController {
 		modelAndView.addObject("status", status);
 		modelAndView.addObject("curUser", user);
 		modelAndView.addObject("statuses", statuses);
+		modelAndView.addObject("storedXss", securitySetting.getStoredXSS());
 		modelAndView.setViewName("profile");
 		return modelAndView;
 	}
