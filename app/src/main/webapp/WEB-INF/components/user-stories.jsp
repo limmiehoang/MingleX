@@ -35,7 +35,7 @@
                 <p>${cg:escapeHtml(item.description)}</p>
             </c:if>
 
-            <c:if test="${storedXss == 'None'}">
+            <c:if test="${storedXss != 'HTMLEscapeOnly' && storedXss != 'Protected'}">
                 <p>${item.description}</p>
             </c:if>
 
