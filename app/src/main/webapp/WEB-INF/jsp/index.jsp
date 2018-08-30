@@ -7,7 +7,8 @@
 	<title>MingleX - Find The One For You</title>
 	<link href="webjars/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" />
 	<!-- Custom styles -->
-    <link href="css/style.css" rel="stylesheet">
+		<link href="css/style.css" rel="stylesheet">
+	<script type="text/javascript">window.$crisp=[];window.CRISP_WEBSITE_ID="589ec403-7696-430e-9189-7882e5dbe707";(function(){d=document;s=d.createElement("script");s.src="https://client.crisp.chat/l.js";s.async=1;d.getElementsByTagName("head")[0].appendChild(s);})();</script>
 </head>
 <body id="page-top">
 	<div class="flex-container">
