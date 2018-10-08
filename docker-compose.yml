@@ -16,7 +16,7 @@ services:
   app:
     container_name: minglex-app
     #Todo: change this line later (auto builded image from docker-hub)
-    image: sanhphanvan/minglex:release-v0.5
+    image: sanhphanvan/minglex:release-v0.5.1
     environment:
       SEC_STORE_PASSWORD_SOLUTION: Plain  #(Plain/Hash/SaltHash/Bcrypt, default: Plain)
       SEC_SQL_INJECTION: "False"          #(True/False, default: False), note: must be a string!
