@@ -194,3 +194,15 @@ h4, h5 {
 	font-weight: bold;
 	color: #90b1dc;
 }
+
+.btn-file-custom input {
+	display:none;
+}
+
+.detail-xml {
+	padding: 15px 30px;
+}
+
+.detail-xml a {
+	color: black;
+}

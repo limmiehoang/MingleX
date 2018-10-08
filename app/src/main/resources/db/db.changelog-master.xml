@@ -33,5 +33,8 @@
 		relativeToChangelogFile="true" />
 	<include file="changelog/16-insert-message.xml"
 		relativeToChangelogFile="true" />
+	<include file="changelog/17-alter-user-schema.xml"
+		relativeToChangelogFile="true" />
+
 
 </databaseChangeLog>

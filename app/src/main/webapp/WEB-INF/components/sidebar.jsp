@@ -77,6 +77,16 @@
                         <a class="edit-info" href="#" id="btn_edit_lookingfor"><span
                                 class="glyphicon glyphicon-edit"></span></a>
                     </div>
+
+                    <div class="info-item detail-xml">
+                        <a id="exportProfileBtn" class="btn btn-default" href="#">Export Profile</a>
+                        <label class="btn btn-default btn-file-custom">
+                            <form id="importProfileForm" method="POST" enctype="multipart/form-data" action="/profile/upload">
+                                <input id="importProfileInput" type="file" name="file" accept="text/xml"/>
+                            </form>
+                            Import Profile
+                        </label>
+                    </div>
                 </div>
                 <a href="#">Change your password</a>
             </div>

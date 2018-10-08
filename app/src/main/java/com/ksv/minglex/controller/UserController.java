@@ -6,12 +6,20 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
+import com.ksv.minglex.service.ParsingXmlService;
+import com.ksv.minglex.storage.StorageFileNotFoundException;
+import com.ksv.minglex.storage.StorageService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.Resource;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.ksv.minglex.model.Status;
@@ -20,6 +28,7 @@ import com.ksv.minglex.service.SessionService;
 import com.ksv.minglex.service.StatusService;
 import com.ksv.minglex.service.UserService;
 import com.ksv.minglex.setting.SecuritySetting;
+import com.ksv.minglex.storage.StorageException;
 
 @Controller
 public class UserController {
@@ -32,6 +41,15 @@ public class UserController {
 	private SessionService sessionService;
 	@Autowired
 	private SecuritySetting securitySetting;
+
+    private final StorageService storageService;
+    @Autowired
+    public UserController(StorageService storageService) {
+        this.storageService = storageService;
+    }
+
+    @Autowired
+    ParsingXmlService parsingXmlService;
 
 	@RequestMapping(value = "/login", method = RequestMethod.GET)
 	public ModelAndView loginView(HttpServletRequest request) {
@@ -152,4 +170,49 @@ public class UserController {
 		return new ModelAndView("redirect:/login");
 	}
 
+    @RequestMapping(value = "/profile/upload", method = RequestMethod.POST)
+    public ModelAndView handleFileUpload(@RequestParam("file") MultipartFile file, HttpServletRequest request) {
+
+        User curUser = sessionService.getCurrentUser(request);
+        if (curUser == null) {
+            return new ModelAndView("redirect:/login");
+        }
+        if(file.isEmpty()) {
+            //do something here
+        }
+        try {
+            if (!"text/xml".equalsIgnoreCase(file.getContentType())) {
+                throw new StorageException("Invalid file!");
+            }
+            String filename = curUser.getId() + ".xml";
+            storageService.store(file, filename);
+
+            System.out.println("Trying to store file " + file.getOriginalFilename());
+            System.out.println("Content type " + file.getContentType());
+
+            Resource xml_file = storageService.loadAsResource(filename);
+            System.out.println("Stored: " + xml_file.getURI().toString());
+
+            User parsedUser = parsingXmlService.XmlToUser(xml_file.getURI().toString());
+            System.out.println("parsedUser:" + parsedUser.getGender() + ", " + parsedUser.getLookingfor());
+
+            parsedUser.setId(curUser.getId());
+            User updatedUser = userService.updateUser(parsedUser);
+            if (updatedUser != null) {
+                sessionService.setCurrentUser(request, updatedUser);
+            } else {
+                System.out.println("Cannot update user " + curUser.getUsername());
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return new ModelAndView("redirect:/profile");
+    }
+
+    @ExceptionHandler(StorageFileNotFoundException.class)
+    public ResponseEntity<?> handleStorageFileNotFound(StorageFileNotFoundException exc) {
+        return ResponseEntity.notFound().build();
+    }
 }
