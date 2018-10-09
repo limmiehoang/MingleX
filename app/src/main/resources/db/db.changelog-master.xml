@@ -35,6 +35,9 @@
 		relativeToChangelogFile="true" />
 	<include file="changelog/17-alter-user-schema.xml"
 		relativeToChangelogFile="true" />
-
+	<include file="changelog/18-delete-default-message.xml"
+		relativeToChangelogFile="true" />
+	<include file="changelog/19-delete-default-chatroom.xml"
+		relativeToChangelogFile="true" />
 
 </databaseChangeLog>
