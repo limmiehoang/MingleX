@@ -84,312 +84,326 @@
 		src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.2/rollups/aes.js"></script>
 	<script src="js/crypto-aes.js"></script>
 	<script>
-		var PIN = null;
-		var hashedPIN = localStorage.getItem("pin");
-		while (hashedPIN == null) {
-			PIN = prompt("Please setup a PIN").trim();
-			if (PIN != null && PIN != "") {
-				hashedPIN = CryptoJS.MD5(PIN);
-				localStorage.setItem("pin", hashedPIN);
-				break;
-			}
-		}
-		while (PIN == null || PIN == "") {
-			PIN = prompt("Please enter your PIN").trim();
-			if (hashedPIN === (CryptoJS.MD5(PIN) + "")) {
-				break;
-			}
-			PIN = null;
-			alert("Wrong PIN!");
-		}
+        !function() {
+            var PIN = null;
+            var hashedPIN = localStorage.getItem("pin");
+            var enter_again = true;
+            if (hashedPIN == null) {
+                do {
+                    PIN = prompt("Please setup a PIN");// PIN = null if user click cancel
+                    if (PIN !== null && PIN !== "") {
+                        hashedPIN = CryptoJS.MD5(PIN);
+                        localStorage.setItem("pin", hashedPIN);
+                        enter_again = false;
+                        break;
+                    }
+                    enter_again = confirm("Do you want to set up you PIN?");
+                } while (enter_again);
 
-        var roomId = null;
-        var chatmateId = null;
-        var chatmateUsername = null;
-        var invite_message = null;
-        var invite_feedback = null;
-        // when user click on sidebar link
-        $(".chatroom-sidebar a").on("click", function() {
-            // set active for this element (link of user is chatting with)
-            $(".chatroom-sidebar a").each(function() {
-                $(this).removeClass("active");
-            })
-            if(!$(this).hasClass("active")) {
-                $(this).addClass("active");
+            } else {
+                do {
+                    PIN = prompt("Please enter your PIN");
+                    if(PIN !== null) {
+                        if (hashedPIN === (CryptoJS.MD5(PIN) + "")) {
+                            enter_again = false;
+                            break;
+                        }
+                        alert("Wrong PIN!");
+                    }
+                    enter_again = confirm("Do you want to enter you PIN again?");
+                } while (enter_again);
             }
-
-            // clean the message area
-            resetMessageArea()
-
-            chatmateId = this.href.split("#")[1];
-            chatmateUsername = this.innerHTML;
-
-            console.log({"chatmateId": chatmateId});
-            $.ajax({
-                url: "/room/chatmate",
-                method: "GET",
-                data: {
-                    chatmateId: chatmateId
-                },
-                success: function(res) {
-                        console.log(res);
-                        responseHandler(res);
-                }
-            })
-            scrollToBottom();
-        })
-        
-        function getKeyDH() {
-            // Decrypt key
-            var payload = localStorage.getItem("k" + chatmateId);
-            console.log("123", PIN, decrypt(payload, PIN));
-            return decrypt(payload, PIN);
-        }
-
-        function setKeyDH(key) {
-            // Encrypt key
-            var keyCipher = encrypt(key + "", PIN);
-            console.log("encrypt", key, PIN);
-            localStorage.setItem("k" + chatmateId, keyCipher);
-        }
-
-        function responseHandler(res) {
-            console.log({responseHandler: res.status});
-            switch (res.status) {
-                case "waiting":
-                    $(".chatbox").addClass("hidden");
-                    $("#wait-message").removeClass("hidden");
-                    $(".chatmate-username").text(chatmateUsername);
-                    break;
-                case "invited":
-                    $(".chatbox").addClass("hidden");
-                    $("#accept-message").removeClass("hidden");
-                    $(".chatmate-username").text(chatmateUsername);
-                    invite_message = res.invite.message;
-                    break;
-                case "accepted":
-                    $(".chatbox").addClass("hidden");
-                    $("#wait-message").addClass("hidden");
-                    $("#connect-message").removeClass("hidden");
-                    $(".chatmate-username").text(chatmateUsername);
-                    invite_feedback = res.invite.feedback;
-                    break;
-                case "unconnected":
-                    $(".chatbox").addClass("hidden");
-                    $("#invite-message").removeClass("hidden");
-                    $(".chatmate-username").text(chatmateUsername);
-                    break;
-                case "connected":
-                    $(".chatbox").removeClass("hidden");
-                    $("#chatroom").removeClass("hidden");
-                    roomId = res.chatroom.id;
-                    enableMessageSender(res, roomId);
-                    viewMessage(res);
-                    break;
-                default:
-                    break;
-            }
-        }
-
-        function viewMessage(res) {
-
-            // remove old messages
-            $("#chatroom").empty();
-
-            var sender = $(location).attr("href").split("#")[1];
-            var messages = res.messages; // message array
-            if (messages == null) {
+            if (PIN === null) {
                 return;
             }
-            messages.forEach(message => {
-                console.log(message);
-                // if message is of current user, show in left side
-                // if message is of another user, show in right side
-                var plaintext = decrypt(message.content, getKeyDH());
-                if(message.sender.id != sender) {
-                    var msgElement = `<div class="message right">` +
-                                    `<p><span>` + plaintext +
-                                    `</span></p></div>`;
-                } else {
-                    var msgElement = `<div class="message left">` +
-                                    `<p><span>` + plaintext +
-                                    `</span></p></div>`;
+            var roomId = null;
+            var chatmateId = null;
+            var chatmateUsername = null;
+            var invite_message = null;
+            var invite_feedback = null;
+            // when user click on sidebar link
+            $(".chatroom-sidebar a").on("click", function() {
+                // set active for this element (link of user is chatting with)
+                $(".chatroom-sidebar a").each(function() {
+                    $(this).removeClass("active");
+                })
+                if(!$(this).hasClass("active")) {
+                    $(this).addClass("active");
                 }
-                $("#chatroom").append(msgElement);
-            });
-        }
 
-        $("#invite").on("click", function() {
-            var url = "/room/invite";
-            var cur_url = $(location).attr("href");
-            var user_id = cur_url.split("#")[1];
-            var p = generate_prime(16);
-            var g = first_primitive_root(p);
-            var my_x = generate_private_number(32);
-            localStorage.setItem("pn" + chatmateId, my_x);
-            var my_y = mod_exp(g, my_x, p);
-            postHandler(url, {
-                recipient: {
-                    id: user_id
-                },
-                message: g + "," + p + "," + my_y
+                // clean the message area
+                resetMessageArea()
+
+                chatmateId = this.href.split("#")[1];
+                chatmateUsername = this.innerHTML;
+
+                console.log({"chatmateId": chatmateId});
+                $.ajax({
+                    url: "/room/chatmate",
+                    method: "GET",
+                    data: {
+                        chatmateId: chatmateId
+                    },
+                    success: function(res) {
+                            console.log(res);
+                            responseHandler(res);
+                    }
+                })
+                scrollToBottom();
             })
-        })
-
-        $("#accept").on("click", function() {
-            var url = "/room/accept";
-            var cur_url = $(location).attr("href");
-            var user_id = cur_url.split("#")[1];
-            var g = invite_message.split(",")[0];
-            var p = invite_message.split(",")[1];
-            var y = invite_message.split(",")[2];
-            var my_x = generate_private_number(32);
-            var my_y = mod_exp(g, my_x, p);
-            var key = mod_exp(y, my_x, p);
-
-            setKeyDH(key);
-            postHandler(url, {
-                chatmate: {
-                    id: user_id
-                },
-                invite: {
-                    feedback: my_y + "," + p
-                }
-            })
-        })
-        
-        $("#connect").on("click", function() {
-            var url = "/room/connect";
-            var cur_url = $(location).attr("href");
-            var user_id = cur_url.split("#")[1];
-            var y = invite_feedback.split(",")[0];
-            var p = invite_feedback.split(",")[1];
-            var my_x = localStorage.getItem("pn" + chatmateId);
-            localStorage.removeItem("pn" + chatmateId);
-            var key = mod_exp(y, my_x, p);
-
-            setKeyDH(key);
-            postHandler(url, {
-                chatmate: {
-                    id: user_id
-                }
-            })
-        })
-
-        function postHandler(url, data) {
-            console.log({url, data})
-            $.ajax({
-                url: url,
-                method: "POST",
-                contentType: 'application/json',
-                data: JSON.stringify(data),
-                success: function(res) {
-                    console.log(res);
-                    resetMessageArea();
-                    responseHandler(res);
-                }
-            })
-        }
-
-        function resetMessageArea() {
-            // clean the message area
-            $(".chat > div").each(function() {
-                if (!$(this).hasClass("hidden") && !$(this).hasClass("chatbox")) {
-                    $(this).addClass("hidden");                                
-                }
-            })
-        }
-
-        function enableMessageSender(res, roomId) {
-            $("#sendMessage").unbind("click").on("click", function() {
-                sendMessage(roomId);
-            })
-        }
-
-        function sendMessage(roomId) {
-            var message = $("#chatbox").val(); // get message from textarea
-            var ciphertext = encrypt(message, getKeyDH());
-            $("#chatbox").val("");            // remove message from textarea
-            if(message.trim() == "") return;
-
-            // show message just be sent
-            var msgElement = `<div class="message right">` +
-                            `<p><span>` + message +
-                            `</span></p></div>`;
-            $("#chatroom").append(msgElement);
-            scrollToBottom();
-
-            var url = "/room/chat";
-            var cur_url = $(location).attr("href");
-            var user_id = cur_url.split("#")[1];
-            var data = {
-                chatroom: {
-                    id: roomId
-                },
-                content: ciphertext
+            
+            function getKeyDH() {
+                // Decrypt key
+                var payload = localStorage.getItem("k" + chatmateId);
+                console.log("PIN", PIN, decrypt(payload, PIN));
+                return decrypt(payload, PIN);
             }
-            $.ajax({
-                url: url,
-                method: "POST",
-                data: JSON.stringify(data),
-                contentType: 'application/json',
-                success: function(res) {
-                    console.log(res);
+
+            function setKeyDH(key) {
+                // Encrypt key
+                var keyCipher = encrypt(key + "", PIN);
+                console.log("encrypt", key, PIN);
+                localStorage.setItem("k" + chatmateId, keyCipher);
+            }
+
+            function responseHandler(res) {
+                console.log({responseHandler: res.status});
+                switch (res.status) {
+                    case "waiting":
+                        $(".chatbox").addClass("hidden");
+                        $("#wait-message").removeClass("hidden");
+                        $(".chatmate-username").text(chatmateUsername);
+                        break;
+                    case "invited":
+                        $(".chatbox").addClass("hidden");
+                        $("#accept-message").removeClass("hidden");
+                        $(".chatmate-username").text(chatmateUsername);
+                        invite_message = res.invite.message;
+                        break;
+                    case "accepted":
+                        $(".chatbox").addClass("hidden");
+                        $("#wait-message").addClass("hidden");
+                        $("#connect-message").removeClass("hidden");
+                        $(".chatmate-username").text(chatmateUsername);
+                        invite_feedback = res.invite.feedback;
+                        break;
+                    case "unconnected":
+                        $(".chatbox").addClass("hidden");
+                        $("#invite-message").removeClass("hidden");
+                        $(".chatmate-username").text(chatmateUsername);
+                        break;
+                    case "connected":
+                        $(".chatbox").removeClass("hidden");
+                        $("#chatroom").removeClass("hidden");
+                        roomId = res.chatroom.id;
+                        enableMessageSender(res, roomId);
+                        viewMessage(res);
+                        break;
+                    default:
+                        break;
                 }
+            }
+
+            function viewMessage(res) {
+
+                // remove old messages
+                $("#chatroom").empty();
+
+                var sender = $(location).attr("href").split("#")[1];
+                var messages = res.messages; // message array
+                if (messages == null) {
+                    return;
+                }
+                messages.forEach(message => {
+                    console.log(message);
+                    // if message is of current user, show in left side
+                    // if message is of another user, show in right side
+                    var plaintext = decrypt(message.content, getKeyDH());
+                    if(message.sender.id != sender) {
+                        var msgElement = `<div class="message right">` +
+                                        `<p><span>` + plaintext +
+                                        `</span></p></div>`;
+                    } else {
+                        var msgElement = `<div class="message left">` +
+                                        `<p><span>` + plaintext +
+                                        `</span></p></div>`;
+                    }
+                    $("#chatroom").append(msgElement);
+                });
+            }
+
+            $("#invite").on("click", function() {
+                var url = "/room/invite";
+                var cur_url = $(location).attr("href");
+                var user_id = cur_url.split("#")[1];
+                var p = generate_prime(16);
+                var g = first_primitive_root(p);
+                var my_x = generate_private_number(32);
+                localStorage.setItem("pn" + chatmateId, my_x);
+                var my_y = mod_exp(g, my_x, p);
+                postHandler(url, {
+                    recipient: {
+                        id: user_id
+                    },
+                    message: g + "," + p + "," + my_y
+                })
             })
-        }
-        function updateMessage(user_id) {
-            if(typeof(user_id) == "undefined") return;
-            console.log("Update message! user_id=" + user_id);
-            $.ajax({
-                url: "/room/chatmate",
-                method: "GET",
-                data: {
-                    chatmateId: user_id
-                },
-                success: function(res) {
+
+            $("#accept").on("click", function() {
+                var url = "/room/accept";
+                var cur_url = $(location).attr("href");
+                var user_id = cur_url.split("#")[1];
+                var g = invite_message.split(",")[0];
+                var p = invite_message.split(",")[1];
+                var y = invite_message.split(",")[2];
+                var my_x = generate_private_number(32);
+                var my_y = mod_exp(g, my_x, p);
+                var key = mod_exp(y, my_x, p);
+
+                setKeyDH(key);
+                postHandler(url, {
+                    chatmate: {
+                        id: user_id
+                    },
+                    invite: {
+                        feedback: my_y + "," + p
+                    }
+                })
+            })
+            
+            $("#connect").on("click", function() {
+                var url = "/room/connect";
+                var cur_url = $(location).attr("href");
+                var user_id = cur_url.split("#")[1];
+                var y = invite_feedback.split(",")[0];
+                var p = invite_feedback.split(",")[1];
+                var my_x = localStorage.getItem("pn" + chatmateId);
+                localStorage.removeItem("pn" + chatmateId);
+                var key = mod_exp(y, my_x, p);
+
+                setKeyDH(key);
+                postHandler(url, {
+                    chatmate: {
+                        id: user_id
+                    }
+                })
+            })
+
+            function postHandler(url, data) {
+                console.log({url, data})
+                $.ajax({
+                    url: url,
+                    method: "POST",
+                    contentType: 'application/json',
+                    data: JSON.stringify(data),
+                    success: function(res) {
                         console.log(res);
+                        resetMessageArea();
                         responseHandler(res);
+                    }
+                })
+            }
+
+            function resetMessageArea() {
+                // clean the message area
+                $(".chat > div").each(function() {
+                    if (!$(this).hasClass("hidden") && !$(this).hasClass("chatbox")) {
+                        $(this).addClass("hidden");                                
+                    }
+                })
+            }
+
+            function enableMessageSender(res, roomId) {
+                $("#sendMessage").unbind("click").on("click", function() {
+                    sendMessage(roomId);
+                })
+            }
+
+            function sendMessage(roomId) {
+                var message = $("#chatbox").val(); // get message from textarea
+                var ciphertext = encrypt(message, getKeyDH());
+                $("#chatbox").val("");            // remove message from textarea
+                if(message.trim() == "") return;
+
+                // show message just be sent
+                var msgElement = `<div class="message right">` +
+                                `<p><span>` + message +
+                                `</span></p></div>`;
+                $("#chatroom").append(msgElement);
+                scrollToBottom();
+
+                var url = "/room/chat";
+                var cur_url = $(location).attr("href");
+                var user_id = cur_url.split("#")[1];
+                var data = {
+                    chatroom: {
+                        id: roomId
+                    },
+                    content: ciphertext
+                }
+                $.ajax({
+                    url: url,
+                    method: "POST",
+                    data: JSON.stringify(data),
+                    contentType: 'application/json',
+                    success: function(res) {
+                        console.log(res);
+                    }
+                })
+            }
+            function updateMessage(user_id) {
+                if(typeof(user_id) == "undefined") return;
+                console.log("Update message! user_id=" + user_id);
+                $.ajax({
+                    url: "/room/chatmate",
+                    method: "GET",
+                    data: {
+                        chatmateId: user_id
+                    },
+                    success: function(res) {
+                            console.log(res);
+                            responseHandler(res);
+                    }
+                })
+            }
+
+            /*var user_id_tmp = $(location).attr("href").split("#")[1];
+            if(typeof(user_id_tmp) != "undefined") {
+                    // clean the message area
+                    resetMessageArea();
+                    // click on the sidebar tab where the id belongs to
+                    $(".chatroom-sidebar a").each(function() {
+                            console.log($(this).attr("href"));
+                            if($(this).attr("href") == ("#" + user_id_tmp)) {
+                                $(this).click();
+                                return;
+                                }
+                        });
+                }*/
+
+                // Auto update message after 6s
+            setInterval(function() {
+                //var user_id = $(location).attr("href").split("#")[1];
+                $(".chatroom-sidebar a").each(function() {
+                    if($(this).hasClass("active")) {
+                        var user_id = $(this).attr("href").replace("#", "");
+                        console.log("active: " + user_id);
+                        updateMessage(user_id);
+                    }
+                });
+            }, 6000)
+
+            function scrollToBottom() {
+                $("#chatroom").animate({ scrollTop: 9999 }, 100);
+            }
+
+            $("#chatbox").on("keydown", function(e) {
+                if(e.keyCode == 13) {
+                    e.preventDefault();
+                    console.log("Press enter in message box => Send the message ...");
+                    sendMessage(roomId);
                 }
             })
-        }
-
-        /*var user_id_tmp = $(location).attr("href").split("#")[1];
-        if(typeof(user_id_tmp) != "undefined") {
-        	    // clean the message area
-        	    resetMessageArea();
-        	    // click on the sidebar tab where the id belongs to
-        	    $(".chatroom-sidebar a").each(function() {
-        	    	    console.log($(this).attr("href"));
-        	    	    if($(this).attr("href") == ("#" + user_id_tmp)) {
-        	    	    	$(this).click();
-        	    	    	return;
-        	    	    	}
-        	    	});
-        	}*/
-
-        	// Auto update message after 6s
-        setInterval(function() {
-            //var user_id = $(location).attr("href").split("#")[1];
-            $(".chatroom-sidebar a").each(function() {
-				if($(this).hasClass("active")) {
-					var user_id = $(this).attr("href").replace("#", "");
-					console.log("active: " + user_id);
-					updateMessage(user_id);
-				}
-		    });
-        }, 6000)
-
-        function scrollToBottom() {
-            $("#chatroom").animate({ scrollTop: 9999 }, 100);
-        }
-
-        $("#chatbox").on("keydown", function(e) {
-            if(e.keyCode == 13) {
-                e.preventDefault();
-                console.log("Press enter in message box => Send the message ...");
-                sendMessage(roomId);
-            }
-        })
+        }();
     </script>
 </t:wrapper>
