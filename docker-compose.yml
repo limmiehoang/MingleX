@@ -27,7 +27,7 @@ services:
     working_dir: /app
     ports:
       - 6969:8080
-    command: bash -c "python /tmp/wait-for-mysql.py && echo 'minglex-mysql works fine' && ls ./target && cp ./target/minglex*.jar ./target/app.jar && java -jar -Dspring.profiles.active=docker ./target/app.jar"
+    command: bash -c "python /tmp/wait-for-mysql.py && cp ./target/minglex*.jar ./target/app.jar && java -jar -Dspring.profiles.active=docker ./target/app.jar"
     depends_on:
       - mysql
     restart: always
