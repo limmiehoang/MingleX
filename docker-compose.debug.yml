@@ -1,0 +1,32 @@
+version: '3'
+services:
+  mysql:
+    container_name: minglex-mysql
+    image: mysql/mysql-server:5.7
+    environment:
+      MYSQL_DATABASE: minglexdb
+      MYSQL_ROOT_PASSWORD: 1
+      MYSQL_USER: root
+      MYSQL_ROOT_HOST: '%'
+    ports:
+      - 6868:3306
+    volumes:
+      - ./initDB:/docker-entrypoint-initdb.d
+    restart: always
+  app:
+    container_name: minglex-app
+    build: .
+    environment:
+      SEC_STORE_PASSWORD_SOLUTION: Plain  #(Plain/Hash/SaltHash/Bcrypt, default: Plain)
+      SEC_SQL_INJECTION: "False"          #(True/False, default: False), note: must be a string!
+      SEC_STORED_XSS: None                #(None/HTMLEscapeOnly/Protected, default: None)
+      SEC_SESSION_FIXATION: "False"       #(True/False, default: False)
+      SEC_REFLECTED_XSS: "False"          #(True/False, default: False)
+      SEC_CSRF: "False"                   #(True/False, default: False)
+    working_dir: /app
+    ports:
+      - 6969:8080
+    command: bash -c "python /tmp/wait-for-mysql.py && cp ./target/minglex*.jar ./target/app.jar && java -jar -Dspring.profiles.active=docker ./target/app.jar"
+    depends_on:
+      - mysql
+    restart: always
