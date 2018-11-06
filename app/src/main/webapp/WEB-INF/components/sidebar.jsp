@@ -3,7 +3,7 @@
 <%@taglib prefix="cg" uri="/WEB-INF/tld/customTagLibrary" %>
 <%@taglib prefix="fmt" uri="http://java.sun.com/jstl/fmt" %>
 
-<div class="w3-sidebar alice-blue w3-bar-block" style="width: auto">
+<div class="sidebar alice-blue w3-bar-block" style="width: auto">
     <c:choose>
         <c:when test="${otherUser != null}">
             <div class="user-profile">
@@ -76,6 +76,16 @@
                         <c:set var="lookingfor" value="${curUser.lookingfor}"/>
                         <a class="edit-info" href="#" id="btn_edit_lookingfor"><span
                                 class="glyphicon glyphicon-edit"></span></a>
+                    </div>
+
+                    <div class="info-item detail-xml">
+                        <a id="exportProfileBtn" class="btn btn-default" href="#">Export Profile</a>
+                        <label class="btn btn-default btn-file-custom">
+                            <form id="importProfileForm" method="POST" enctype="multipart/form-data" action="/profile/upload">
+                                <input id="importProfileInput" type="file" name="file" accept="text/xml"/>
+                            </form>
+                            Import Profile
+                        </label>
                     </div>
                 </div>
                 <a href="#">Change your password</a>

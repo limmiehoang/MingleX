@@ -3,7 +3,7 @@
 <%@taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 
 <c:forEach var="item" items="${statuses}">
-    <div class="row first-row">
+    <div class="row">
         <div class="col-sm-2 status-user-img">
             <a href="#"> <c:choose>
                 <c:when test="${item.user.gender == 'male'}">
@@ -27,15 +27,15 @@
             </p>
 
             <%--Switch Stored XSS--%>
-            <fmt:bundle basename="application">
+            <%-- <fmt:bundle basename="application">
                 <fmt:message key="security.stored-xss" var="storedXss"/>
-            </fmt:bundle>
+            </fmt:bundle> --%>
 
             <c:if test="${storedXss == 'HTMLEscapeOnly' || storedXss == 'Protected'}">
                 <p>${cg:escapeHtml(item.description)}</p>
             </c:if>
 
-            <c:if test="${storedXss == 'None'}">
+            <c:if test="${storedXss != 'HTMLEscapeOnly' && storedXss != 'Protected'}">
                 <p>${item.description}</p>
             </c:if>
 

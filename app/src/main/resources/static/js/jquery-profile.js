@@ -45,9 +45,23 @@ $(document).ready(function(){
 					</div>\
 				</form>\
 		');
-
 	});
 
+    $("#exportProfileBtn").click(function (e) {
+        var xmlString = '<?xml%20version="1.0"%20encoding="UTF-8"?>\n' +
+            '<user>\n' +
+            '<gender>' + $("#gender").html() + '</gender>\n' +
+            '<lookingfor>' + $("#lookingfor").html() + '</lookingfor>\n' +
+            '</user>';
+        var result = "data:application/octet-stream," + xmlString;
+        this.href = result;
+        this.download = "profile.xml";
+        return true;
+    });
+
+    $("#importProfileInput").change(function() {
+        $("#importProfileForm").submit();
+    });
 });
 
 function updateProfile(type) {

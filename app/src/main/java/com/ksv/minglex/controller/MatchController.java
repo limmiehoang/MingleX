@@ -58,6 +58,7 @@ public class MatchController {
         modelAndView.addObject("users", users);
         modelAndView.addObject("keywords", keywords);
         modelAndView.addObject("gender", gender);
+        modelAndView.addObject("reflectedXss", securitySetting.getReflectedXSS());
 
         modelAndView.setViewName("search");
         return modelAndView;

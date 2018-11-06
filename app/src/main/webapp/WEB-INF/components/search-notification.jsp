@@ -3,9 +3,9 @@
 <%@taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 
 <%--Switch Reflected XSS--%>
-<fmt:bundle basename="application">
+<%-- <fmt:bundle basename="application">
     <fmt:message key="security.reflected-xss" var="reflectedXss"/>
-</fmt:bundle>
+</fmt:bundle> --%>
 
 <c:if test="${reflectedXss == 'True' }">
     <c:set var="keywords" value="${cg:escapeHtml(keywords)}" />

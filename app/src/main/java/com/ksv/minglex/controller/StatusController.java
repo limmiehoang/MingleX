@@ -17,6 +17,7 @@ import com.ksv.minglex.model.Status;
 import com.ksv.minglex.model.User;
 import com.ksv.minglex.service.SessionService;
 import com.ksv.minglex.service.StatusService;
+import com.ksv.minglex.setting.SecuritySetting;
 
 @Controller
 public class StatusController {
@@ -25,6 +26,8 @@ public class StatusController {
 	private StatusService statusService;
 	@Autowired
 	private SessionService sessionService;
+	@Autowired
+	private SecuritySetting securitySetting;
 
 	@RequestMapping(value = "/explore", method = RequestMethod.GET)
 	public ModelAndView explore(Model model, HttpServletRequest request) {
@@ -40,6 +43,7 @@ public class StatusController {
 		modelAndView.addObject("status", status);
 		modelAndView.addObject("curUser", user);
 		modelAndView.addObject("statuses", statuses);
+		modelAndView.addObject("storedXss", securitySetting.getStoredXSS());
 		modelAndView.setViewName("explore");
 		return modelAndView;
 	}

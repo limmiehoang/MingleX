@@ -7,6 +7,7 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import javax.transaction.Transactional;
 
+import com.ksv.minglex.model.Chatroom;
 import com.ksv.minglex.model.User;
 
 @Transactional
@@ -59,6 +60,14 @@ public class UserRepositoryCustomImpl implements UserRepositoryCustom {
 
         return (users.size() > 0) ? users : null;
     }
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<User> findAllExceptMe(User user) {
+		Query q = em.createNativeQuery("SELECT * FROM user WHERE NOT user_id=?", User.class);
+		q.setParameter(1, user.getId());
+		return (List<User>) q.getResultList();
+	}
 
 
 }

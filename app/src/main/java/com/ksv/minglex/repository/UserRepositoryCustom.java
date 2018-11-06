@@ -9,4 +9,5 @@ public interface UserRepositoryCustom {
 	User findByUsernameAndPasswordCustom(String username, String password);
 	List<User> findUsersByKeywordsAndGender(String keywords, String gender);
 	List<User> findUsersByKeywords(String keywords);
+	List<User> findAllExceptMe(User user);
 }

@@ -23,5 +23,21 @@
 		relativeToChangelogFile="true" />
 	<include file="changelog/11-alter-user-schema.xml"
 		relativeToChangelogFile="true" />
+	<include file="changelog/12-create-chatroom-schema.xml"
+		relativeToChangelogFile="true" />
+	<include file="changelog/13-insert-chatroom.xml"
+		relativeToChangelogFile="true" />
+	<include file="changelog/14-create-message-schema.xml"
+		relativeToChangelogFile="true" />
+	<include file="changelog/15-create-invite-schema.xml"
+		relativeToChangelogFile="true" />
+	<include file="changelog/16-insert-message.xml"
+		relativeToChangelogFile="true" />
+	<include file="changelog/17-alter-user-schema.xml"
+		relativeToChangelogFile="true" />
+	<include file="changelog/18-delete-default-message.xml"
+		relativeToChangelogFile="true" />
+	<include file="changelog/19-delete-default-chatroom.xml"
+		relativeToChangelogFile="true" />
 
 </databaseChangeLog>

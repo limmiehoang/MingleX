@@ -16,7 +16,7 @@ services:
   app:
     container_name: minglex-app
     #Todo: change this line later (auto builded image from docker-hub)
-    image: sanhphanvan/minglex
+    image: sanhphanvan/minglex:release-v0.5.2
     environment:
       SEC_STORE_PASSWORD_SOLUTION: Plain  #(Plain/Hash/SaltHash/Bcrypt, default: Plain)
       SEC_SQL_INJECTION: "False"          #(True/False, default: False), note: must be a string!
@@ -27,7 +27,7 @@ services:
     working_dir: /app
     ports:
       - 6969:8080
-    command: bash -c "python /tmp/wait-for-mysql.py && echo 'minglex-mysql works fine' && ls ./target && cp ./target/minglex*.jar ./target/app.jar && java -jar -Dspring.profiles.active=docker ./target/app.jar"
+    command: bash -c "python /tmp/wait-for-mysql.py && cp ./target/minglex*.jar ./target/app.jar && java -jar -Dspring.profiles.active=docker ./target/app.jar"
     depends_on:
       - mysql
     restart: always

@@ -1,20 +1,23 @@
 package com.ksv.minglex.model;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.NamedNativeQuery;
-import javax.persistence.Table;
-import javax.validation.constraints.NotEmpty;
-
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.validator.constraints.Length;
 import org.springframework.data.annotation.Transient;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import javax.validation.constraints.NotEmpty;
+import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 
 @Entity
 @Table(name = "user")
+@XmlRootElement
 public class User {
-	
+
 	@Id
 	@Column(name = "user_id")
 	private int id;
@@ -25,6 +28,7 @@ public class User {
 	@Length(min = 5, message = "*Your password must have at least 5 characters")
 	@NotEmpty(message = "*Please provide your password")
 	@Transient
+	@JsonIgnore
 	private String password;
 	@Column(name = "gender")
 	@NotEmpty(message = "*Please provide your gender")
@@ -56,6 +60,7 @@ public class User {
 		this.password = password;
 	}
 
+	@XmlElement
 	public String getGender() {
 		return gender;
 	}
@@ -64,6 +69,7 @@ public class User {
 		this.gender = gender;
 	}
 
+	@XmlElement
 	public String getLookingfor() {
 		return lookingfor;
 	}
