@@ -157,7 +157,7 @@ public class UserController {
 		modelAndView.addObject("status", status);
 		modelAndView.addObject("curUser", user);
 		modelAndView.addObject("statuses", statuses);
-		modelAndView.addObject("storedXss", securitySetting.getStoredXSS());
+		modelAndView.addObject("storedXSS", securitySetting.getStoredXSS());
 		modelAndView.setViewName("profile");
 		return modelAndView;
 	}

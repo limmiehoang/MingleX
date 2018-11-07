@@ -103,8 +103,6 @@
     <input id="csrfInput" type="hidden" name="_csrf" value="${_csrfToken}" />
 </div>
 <script>
-    var a = '${storedXSS}';
-    console.log(a);
     <%--Switch Stored XSS--%>
     <c:choose>
         <c:when test="${storedXSS == 'Protected'}">
