@@ -26,7 +26,6 @@ public class WebMvcConfig implements WebMvcConfigurer {
 	private SHA256PasswordEncoder sha256PasswordEncoder;
 	@Autowired
 	private SaltSHA256PasswordEncoder saltSHA256PasswordEncoder;
-	private BCryptPasswordEncoder bCryptPasswordEncoder;
 
 	@Bean
 	public PasswordEncoder passwordEncoder() {
@@ -35,9 +34,6 @@ public class WebMvcConfig implements WebMvcConfigurer {
 			return sha256PasswordEncoder;
 		case "SaltHash":
 			return saltSHA256PasswordEncoder;
-		case "BCrypt":
-			bCryptPasswordEncoder = new BCryptPasswordEncoder();
-			return bCryptPasswordEncoder;
 		default:
 			return plainTextPasswordEncoder;
 		}

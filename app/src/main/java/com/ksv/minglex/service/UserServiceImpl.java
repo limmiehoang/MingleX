@@ -59,9 +59,13 @@ public class UserServiceImpl implements UserService {
 	public User authenticateUser(User user) {
 		User userdb;
 
-		switch (securitySetting.getStorePasswordSolution()) {
-		case "SaltHash":
-		case "BCrypt":
+		if ("Plain".equals(securitySetting.getStorePasswordSolution())) {
+			if (securitySetting.getSqlInjection()) {
+				userdb = userRepository.findByUsernameAndPassword(user.getUsername(), user.getPassword());
+			} else {
+				userdb = userRepository.findByUsernameAndPasswordCustom(user.getUsername(), user.getPassword());
+			}
+		} else {
 			if (securitySetting.getSqlInjection()) {
 				userdb = userRepository.findByUsername(user.getUsername());
 			} else {
@@ -69,16 +73,15 @@ public class UserServiceImpl implements UserService {
 			}
 			if (userdb == null)
 				return null; // username not found
-			if (passwordEncoder.matches(user.getPassword(), userdb.getPassword())) {
-				return userdb;
-			} else {
-				return null;
-			}
-		default:
-			if (securitySetting.getSqlInjection()) {
-				userdb = userRepository.findByUsernameAndPassword(user.getUsername(), user.getPassword());
-			} else {
-				userdb = userRepository.findByUsernameAndPasswordCustom(user.getUsername(), user.getPassword());
+			switch (securitySetting.getStorePasswordSolution()) {
+				case "Hash":
+					if (!sha256PasswordEncoder.matches(user.getPassword(), userdb.getPassword())) userdb = null;
+					break;
+				case "SaltHash":
+					if (!saltSHA256PasswordEncoder.matches(user.getPassword(), userdb.getPassword())) userdb = null;
+					break;
+				case "BCrypt":
+					if (!bCryptPasswordEncoder.matches(user.getPassword(), userdb.getPassword())) userdb = null;
 			}
 		}
 		return userdb;
