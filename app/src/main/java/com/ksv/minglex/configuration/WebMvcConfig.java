@@ -44,6 +44,11 @@ public class WebMvcConfig implements WebMvcConfigurer {
 	}
 
 	@Bean
+	public BCryptPasswordEncoder BCryptPasswordEncoder() {
+		return new BCryptPasswordEncoder();
+	}
+
+	@Bean
 	public CSRFInterceptor getCSRFInterceptor() {
 		return new CSRFInterceptor();
 	}

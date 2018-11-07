@@ -105,7 +105,7 @@
             
             $.ajax({
                 type : 'PUT',
-                url : 'http://localhost:8080/configuration/update',
+                url : '/configuration/update',
                 data : JSON.stringify(settings),
                 contentType : 'application/json',
                 success : function(res) {

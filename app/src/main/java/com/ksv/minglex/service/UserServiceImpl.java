@@ -26,6 +26,7 @@ public class UserServiceImpl implements UserService {
 	private SHA256PasswordEncoder sha256PasswordEncoder;
 	@Autowired
 	private SaltSHA256PasswordEncoder saltSHA256PasswordEncoder;
+	@Autowired
 	private BCryptPasswordEncoder bCryptPasswordEncoder;
 
 	@Override
@@ -104,10 +105,13 @@ public class UserServiceImpl implements UserService {
 			return null;
 		String gender = user.getGender();
 		String lookingfor = user.getLookingfor();
+		String crushingOn = user.getCrushingOn();
 		if (gender != null)
 			userDb.setGender(gender);
 		if (lookingfor != null)
 			userDb.setLookingfor(lookingfor);
+		if (crushingOn != null)
+			userDb.setCrushingOn(crushingOn);
 		userRepository.save(userDb);
 		return userDb;
 	}

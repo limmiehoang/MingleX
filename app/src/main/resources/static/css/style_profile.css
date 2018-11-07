@@ -17,7 +17,8 @@ img.logo{
 .sidebar {
 	height: 100%;
 	position: fixed!important;
-	width: 295px;
+    width: auto;
+    max-width: 300px;
 	z-index: 1;
 	overflow: auto;
 	border-right: 1px solid lightgray;
@@ -48,6 +49,10 @@ img.profile-img {
 
 .user-profile {
     text-align: center;
+}
+
+.user-profile #crushing-on-update input {
+    width: 100%;
 }
 
 .alice-blue {

@@ -35,6 +35,8 @@ public class User {
 	private String gender;
 	@Column(name = "lookingfor")
 	private String lookingfor;
+	@Column(name = "crushing_on")
+	private String crushingOn;
 
 	public int getId() {
 		return id;
@@ -78,4 +80,11 @@ public class User {
 		this.lookingfor = lookingfor;
 	}
 
+    public String getCrushingOn() {
+        return crushingOn;
+    }
+
+    public void setCrushingOn(String crushingOn) {
+        this.crushingOn = crushingOn;
+    }
 }

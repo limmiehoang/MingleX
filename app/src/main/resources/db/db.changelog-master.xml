@@ -39,5 +39,7 @@
 		relativeToChangelogFile="true" />
 	<include file="changelog/19-delete-default-chatroom.xml"
 		relativeToChangelogFile="true" />
+    <include file="changelog/20-add-column-crushing-on-to-user-schema.xml"
+		relativeToChangelogFile="true" />
 
 </databaseChangeLog>

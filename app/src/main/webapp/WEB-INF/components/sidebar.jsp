@@ -3,7 +3,7 @@
 <%@taglib prefix="cg" uri="/WEB-INF/tld/customTagLibrary" %>
 <%@taglib prefix="fmt" uri="http://java.sun.com/jstl/fmt" %>
 
-<div class="sidebar alice-blue w3-bar-block" style="width: auto">
+<div class="sidebar alice-blue w3-bar-block">
     <c:choose>
         <c:when test="${otherUser != null}">
             <div class="user-profile">
@@ -78,6 +78,14 @@
                                 class="glyphicon glyphicon-edit"></span></a>
                     </div>
 
+                    <div class="info-item">
+                        <h6>Crushing on</h6>
+                        <p id="crushingOn"></p>
+                        <c:set var="crushingOn" value="${curUser.crushingOn}"/>
+                        <a class="edit-info" href="#" id="btn_edit_crushingOn"><span
+                                class="glyphicon glyphicon-edit"></span></a>
+                    </div>
+
                     <div class="info-item detail-xml">
                         <a id="exportProfileBtn" class="btn btn-default" href="#">Export Profile</a>
                         <label class="btn btn-default btn-file-custom">
@@ -95,20 +103,20 @@
     <input id="csrfInput" type="hidden" name="_csrf" value="${_csrfToken}" />
 </div>
 <script>
+    var a = '${storedXSS}';
+    console.log(a);
     <%--Switch Stored XSS--%>
-    <fmt:bundle basename="application">
-        <fmt:message key="security.stored-xss" var="storedXss"/>
-    </fmt:bundle>
-
     <c:choose>
-        <c:when test="${storedXss == 'Protected'}">
-            $("#gender").html('${cg:escapeJavaScript(gender)}');
-            $("#lookingfor").html('${cg:escapeJavaScript(lookingfor)}');
+        <c:when test="${storedXSS == 'Protected'}">
+            $("#gender").text('${cg:escapeJavaScript(gender)}');
+            $("#lookingfor").text('${cg:escapeJavaScript(lookingfor)}');
+            $("#crushingOn").text('${cg:escapeJavaScript(crushingOn)}');
         </c:when>
 
         <c:otherwise>
             $("#gender").html('${gender}');
             $("#lookingfor").html('${lookingfor}');
+            $("#crushingOn").html('${crushingOn}');
         </c:otherwise>
     </c:choose>
 </script>

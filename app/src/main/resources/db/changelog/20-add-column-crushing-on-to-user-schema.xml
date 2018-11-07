@@ -1,0 +1,26 @@
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+
+    <changeSet id="add-column-to-user" author="ksv">
+        <addColumn tableName="user">
+            <column name="crushing_on" type="text">
+                <constraints nullable="true"/>
+            </column>
+        </addColumn>
+        <update tableName="user">
+            <column name="crushing_on" value="Mary-Jane Watson" />
+            <where>username = "spiderman"</where>
+        </update>
+        <update tableName="user">
+            <column name="crushing_on" value="Daenerys Targaryen" />
+            <where>username = "jonsnow"</where>
+        </update>
+        <update tableName="user">
+            <column name="crushing_on" value="Superman" />
+            <where>username = "wonderwoman"</where>
+        </update>
+    </changeSet>
+
+</databaseChangeLog>

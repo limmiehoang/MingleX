@@ -47,11 +47,25 @@ $(document).ready(function(){
 		');
 	});
 
+    $("#btn_edit_crushingOn").click(function(){
+        $("#crushingOn").html('\
+				<form id="crushing-on-update">\
+					<div class="form-group">\
+                        <input type="text" name="crushingOn" value=""/>\
+					</div>\
+					<div class="form-group form-actions text-right">\
+						<input class="btn btn-primary" value="Done" onclick="updateProfile(\'crushingOn\')">\
+					</div>\
+				</form>\
+		');
+    });
+
     $("#exportProfileBtn").click(function (e) {
         var xmlString = '<?xml%20version="1.0"%20encoding="UTF-8"?>\n' +
             '<user>\n' +
             '<gender>' + $("#gender").html() + '</gender>\n' +
             '<lookingfor>' + $("#lookingfor").html() + '</lookingfor>\n' +
+            '<crushingOn>' + $("#crushingOn").html() + '</crushingOn>\n' +
             '</user>';
         var result = "data:application/octet-stream," + xmlString;
         this.href = result;
@@ -69,13 +83,15 @@ function updateProfile(type) {
 	console.log(type);
 	if (type === "gender") {
 		user = {"gender": $("input[name='gender']:checked").val() || null};
-	} else {
+	} else if (type === "lookingfor") {
 		user = {"lookingfor": $("input[name='lookingfor']:checked").val() || null};
-	}
+	} else {
+        user = {"crushingOn": $("input[name='crushingOn']").val() || null};
+    }
 
 	$.ajax({
 		type : 'PUT',
-		url : 'http://localhost:8080/profile',
+		url : '/profile',
 		data : JSON.stringify(user),
 		contentType : 'application/json',
 		headers: {
@@ -89,6 +105,9 @@ function updateProfile(type) {
 			if (user.lookingfor) {
 				$("#lookingfor").html(user.lookingfor);
 			}
+			if (user.crushingOn) {
+                $("#crushingOn").html(user.crushingOn);
+            }
 		},
 		error : function(res) {
 			console.log("error", res);
