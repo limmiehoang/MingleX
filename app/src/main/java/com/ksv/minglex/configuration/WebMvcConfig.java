@@ -44,11 +44,6 @@ public class WebMvcConfig implements WebMvcConfigurer {
 	}
 
 	@Bean
-	public BCryptPasswordEncoder BCryptPasswordEncoder() {
-		return new BCryptPasswordEncoder();
-	}
-
-	@Bean
 	public CSRFInterceptor getCSRFInterceptor() {
 		return new CSRFInterceptor();
 	}
@@ -60,11 +55,13 @@ public class WebMvcConfig implements WebMvcConfigurer {
 
 	@Override
 	public void addInterceptors(InterceptorRegistry registry) {
-		// Register CSRF interceptor to generate CSRF token
-		registry.addInterceptor(getCSRFInterceptor()).addPathPatterns("/login", "/registration", "/profile",
-				"/explore");
-		// Register CSRF prevention interceptor to check CSRF token
-		registry.addInterceptor(getCSRFPreventionInterceptor()).addPathPatterns("/login", "/registration",
-				"/status/new", "/profile");
+		if (securitySetting.getCsrf()) {
+			// Register CSRF interceptor to generate CSRF token
+			registry.addInterceptor(getCSRFInterceptor()).addPathPatterns("/login", "/registration", "/profile",
+					"/explore");
+			// Register CSRF prevention interceptor to check CSRF token
+			registry.addInterceptor(getCSRFPreventionInterceptor()).addPathPatterns("/login", "/registration",
+					"/status/new", "/profile");
+		}
 	}
 }

@@ -26,7 +26,6 @@ public class UserServiceImpl implements UserService {
 	private SHA256PasswordEncoder sha256PasswordEncoder;
 	@Autowired
 	private SaltSHA256PasswordEncoder saltSHA256PasswordEncoder;
-	@Autowired
 	private BCryptPasswordEncoder bCryptPasswordEncoder;
 
 	@Override
