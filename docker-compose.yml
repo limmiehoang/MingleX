@@ -10,7 +10,7 @@ services:
     restart: always
   app:
     container_name: minglex-app
-    image: sanhphanvan/minglex:release-v0.5.2
+    image: sanhphanvan/minglex
     environment:
       # Database
       MYSQL_DATABASE: ${MYSQL_DATABASE}
