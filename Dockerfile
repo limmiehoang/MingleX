@@ -1,17 +1,14 @@
-FROM maven:3.5-jdk-8
+FROM maven:3.5-jdk-8 as maven
+RUN mkdir --parents /usr/src/app
+WORKDIR /usr/src/app
 
-# Build source -> java application
-COPY ./app /app
-WORKDIR /app
+ADD ./app/pom.xml /usr/src/app/
+RUN mvn verify clean --fail-never
+
+ADD ./app /usr/src/app
 RUN mvn -Dmaven.test.skip=true install
 
-# Install some python packages(Todo: need build another image that has these package first)
-WORKDIR /tmp
-RUN curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
-RUN python get-pip.py
-RUN apt update -y
-RUN apt install python-dev libpq-dev -y
-RUN apt-get install python-mysqldb -y
+FROM java:8
+COPY --from=maven /usr/src/app/target/*.war /opt/app.war
 
-# Python script for run later
-COPY ./wait-for-mysql.py /tmp/wait-for-mysql.py
+RUN mkdir upload-dir
